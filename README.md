@@ -1,0 +1,56 @@
+# C-string-lib - Implementation of utilities to work with Strings in C! 🚀
+
+Welcome to this small project on a few implementations of utility functions regarding Strings in C!
+
+## Goal 🎯
+
+This project aims for deepening the understanding of concepts in C regarding Strings, represented as Arrays of Characters. When working with this data structure, simple implementations show the basics of concepts such as
+
+- String initialization and representation
+- Boundaries and the special null terminator `\0`
+- Allocation on the Stack vs. Heap
+- Usage of pointers (the classic topic... 😉) and memory management
+- Basic structure of small projects
+- Compilation process using Makefiles
+
+Without using the string library `string.h`, this project implements basic functionalities as a learning path.
+
+## Project Structure 🧭
+
+The project is structured in the following way.
+
+```text
+C-string-lib/
+├── include/
+│ └── string_utils.h
+├── src/
+│ └── string_utils.c
+├── tests/
+│ └── main.c
+└── Makefile
+```
+
+**include**: Header files
+
+**src:** Actual implementation of the modules (.c files)
+
+**tests:** Test programs
+
+**Makefile:** Build instructions
+
+## Functionalities ⚙️
+
+- `str_length`: Get the length of a given String
+- ...
+
+## How to build 🏗️
+
+TO build the project, execute the following.
+
+```bash
+make
+./test_strings
+make clean
+```
+
+Have fun and happy coding! 🥳🎉
