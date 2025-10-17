@@ -49,8 +49,8 @@ TO build the project, execute the following.
 
 ```bash
 make
-./test_strings
 make clean
+./test
 ```
 
 Have fun and happy coding! 🥳🎉
