@@ -1,21 +1,24 @@
 #include <stdio.h>
 #include "string_utils.h"
+#include "test_utils.h"
 
 int main()
 {
-    // Declare a string variable in different ways
-
-    // 1. Read/Write on the stack
-    char str[] = "Hello";
-
-    printf("Testing str_length...\n");
-    int len = str_length(str);
-    if (len != 5)
+    // str_length
+    if (test_str_length() == 1)
     {
+        printf("Failed: str_length\n");
         return 1;
     }
 
-    printf("All test successful!\n");
+    // str_copy
+    if (test_str_copy() == 1)
+    {
+        printf("Failed: str_copy\n");
+        return 1;
+    }
+
+    printf("Success!\n");
 
     return 0;
 }
