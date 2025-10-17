@@ -44,7 +44,7 @@ int test_str_copy()
     printf("Testing str_copy...\n");
     char src[] = "Hello World";
     char dest[] = "";
-    str_copy(dest, src);
+    str_copy(src, dest);
     if (assert_str_equal("str_copy", src, dest))
     {
         return 0;

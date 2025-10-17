@@ -41,7 +41,7 @@ C-string-lib/
 ## Functionalities ⚙️
 
 - `str_length`: Get the length of a given String
-- ...
+- `str_copy`: Copy a string from a source to a destination
 
 ## How to build 🏗️
 

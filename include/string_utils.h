@@ -6,6 +6,6 @@
 
 int str_length(const char *str);
 
-char *str_copy(char *dest, const char *src);
+char *str_copy(const char *src, char *dest);
 
 #endif

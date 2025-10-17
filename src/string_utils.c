@@ -18,7 +18,7 @@ int str_length(const char *str)
     return len;
 }
 
-char *str_copy(char *dest, const char *src)
+char *str_copy(const char *src, char *dest)
 {
     // Save where dest begins for return
     char *start = dest;
