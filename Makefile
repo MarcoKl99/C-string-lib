@@ -1,14 +1,17 @@
 # Compiler and Flags
 CC = gcc
-CFLAGS = -Wall -g -Iinclude
+CFLAGS = -Wall -g -Iinclude -MMD -MP
 
 # Definition of src directory
-SRC = $(wildcard src/*.c)
+SRC := $(wildcard src/*.c)
 TESTS := $(wildcard tests/*.c)
 
 # Objectfiles and target
-OBJS = $(SRC:.c=.o) $(TESTS:.c=.o)
-TARGET = test
+OBJS := $(SRC:.c=.o) $(TESTS:.c=.o)
+DEPS := $(OBJS:.o=.d)
+
+# Define the target
+TARGET := test
 
 # Default target - build everything
 all: $(TARGET)
@@ -17,17 +20,17 @@ all: $(TARGET)
 $(TARGET) : $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET)
 
-# Compile main.c
-main.o: main.c string_utils.h test_utils.h
-	$(CC) $(CFLAGS) -c main.c
-
 # Compile all .c files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compile main.c
-tests/main.o: tests/main.c include/string_utils.h include/test_utils.h
-	$(CC) $(CFLAGS) -c tests/main.c -o tests/main.o
-
+# Define the clean operation to remove all .o files
 clean:
 	rm -f src/*.o tests/*.o
+	rm -f src/*.d tests/*.d
+
+# Include automatically generated .d files (dependencies on headers)
+-include $(DEPS)
+
+# State that all and clean are no real files but commands (always execute)
+.PHONY: all clean
