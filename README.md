@@ -42,6 +42,7 @@ C-string-lib/
 
 - `str_length`: Get the length of a given String
 - `str_copy`: Copy a string from a source to a destination
+- `str_concat`: Concatenate two strings and write the result into a buffer (and check against buffer overflow)
 
 ## How to build 🏗️
 

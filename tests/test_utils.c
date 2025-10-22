@@ -54,3 +54,60 @@ int test_str_copy()
         return 1;
     }
 }
+
+int test_str_concat()
+{
+    printf("Testing str_concat...\n");
+
+    // Initialize variables
+    char s1[] = "Hello";
+    char s2[] = " World!";
+
+    // Case 1: Happy Path (buffer large enough)
+    char buf[100];
+    size_t needed = str_concat(s1, s2, buf, 100);
+
+    // Check if the eeded space is correct
+    if (needed != str_length(s1) + str_length(s2))
+    {
+        return 1;
+    }
+
+    // Create a string index and check s1
+    size_t s_idx = 0;
+    size_t buf_idx = 0;
+
+    while (s1[s_idx] != '\0')
+    {
+        if (s1[s_idx] != buf[buf_idx])
+        {
+            return 1;
+        }
+
+        s_idx++;
+        buf_idx++;
+    }
+
+    // Reset and check s2
+    s_idx = 0;
+
+    while (s2[s_idx] != '\0')
+    {
+        if (s2[s_idx] != buf[buf_idx])
+        {
+            return 1;
+        }
+
+        s_idx++;
+        buf_idx++;
+    }
+
+    // Check if the string in the buffer ends here
+    if (buf[buf_idx] != '\0')
+    {
+        return 1;
+    }
+
+    // Success - return 0
+    return 0;
+}

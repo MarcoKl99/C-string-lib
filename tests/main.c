@@ -18,6 +18,13 @@ int main()
         return 1;
     }
 
+    // str_concat
+    if (test_str_concat() == 1)
+    {
+        printf("Failed: str_concat\n");
+        return 1;
+    }
+
     printf("Success!\n");
 
     return 0;

@@ -1,11 +1,12 @@
 #ifndef STRING_UTILS_H
 #define STRING_UTILS_H
 
-// Return loops after STR_ERR_NO_TERMINATOR iterations and no '\0' was found
-#define STR_LEN_THRESHOLD 1000000
+#include <stdlib.h>
 
-int str_length(const char *str);
+size_t str_length(const char *str);
 
 char *str_copy(const char *src, char *dest);
+
+size_t str_concat(const char *s1, const char *s2, char *buf, size_t buf_size);
 
 #endif
