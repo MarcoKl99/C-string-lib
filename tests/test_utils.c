@@ -95,11 +95,18 @@ int str_concat_success()
     char concat[] = "Hello World!";
 
     // Case 1: Happy Path (buffer large enough)
-    char buf[100];
-    size_t needed = str_concat(s1, s2, buf, 100);
+    size_t buf_size = 100;
+    char buf[buf_size];
+    size_t needed = str_concat(s1, s2, buf, buf_size);
 
     // Check if the eeded space is correct
     if (needed != str_length(concat))
+    {
+        return 0;
+    }
+
+    // Check that the needed size is smaller than the buf_size
+    if (needed >= buf_size)
     {
         return 0;
     }
@@ -110,5 +117,23 @@ int str_concat_success()
         return 0;
     }
 
+    // Case 2: Buffer too small
+    buf_size = 3;
+    char buf_small[buf_size];
+    needed = str_concat(s1, s2, buf_small, buf_size);
+
+    // Check that the required space is more than buf_size -> indicate error
+    if (needed <= buf_size)
+    {
+        return 0;
+    }
+
+    // Check that the string was not written in the too small buffer
+    if (str_are_equal(buf_small, concat))
+    {
+        return 0;
+    }
+
+    // Success - all tests passed
     return 1;
 }
