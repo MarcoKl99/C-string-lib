@@ -2,11 +2,11 @@
 #define TEST_UTILS_H
 
 // Helper function
-int assert_str_equal(const char *test_name, const char *str_1, const char *str_2);
+int str_are_equal(const char *str_1, const char *str_2);
 
 // Function tests
-int test_str_length();
-int test_str_copy();
-int test_str_concat();
+int str_length_success();
+int str_copy_success();
+int str_concat_success();
 
 #endif

@@ -2,15 +2,16 @@
 #include <stdio.h>
 #include "test_utils.h"
 #include "string_utils.h"
+#include "pair.h"
 
 // Utility function
-int assert_str_equal(const char *test_name, const char *str_1, const char *str_2)
+int str_are_equal(const char *str_1, const char *str_2)
 {
     while (*str_1 != '\0' && *str_2 != '\0')
     {
         if (*str_1 != *str_2)
         {
-            return 1;
+            return 0;
         }
         str_1++;
         str_2++;
@@ -19,95 +20,95 @@ int assert_str_equal(const char *test_name, const char *str_1, const char *str_2
     // If lengths differ
     if (*str_1 != *str_2)
     {
-        return 1;
+        return 0;
     }
 
-    return 0;
+    return 1;
 }
 
 // Function tests
-int test_str_length()
+int str_length_success()
 {
     printf("Testing str_length...\n");
-    char str[] = "Hello";
-    int len = str_length(str);
-    if (len != 5)
+
+    // Create a list of test pairs
+    Pair pairs[] = {
+        {"Hello", 5},
+        {"Is this working?", 16},
+        {"Another example that might be a little bit longer!!!", 52},
+        {"60b28b9b-0c2b-4ac0-882b-66b89d26b9e9", 36},
+        {"string with     mul  ti     ple whitespa  ce  s", 47},
+        {"", 0},
+    };
+
+    // Iterate and test all pairs
+    int num_pairs = sizeof(pairs) / sizeof(pairs[0]);
+    for (int i = 0; i < num_pairs; i++)
     {
-        return 1;
+        int len = str_length(pairs[i].key);
+        int desired_len = pairs[i].value;
+
+        if (len != desired_len)
+        {
+            return 0;
+        }
     }
 
-    return 0;
+    return 1;
 }
 
-int test_str_copy()
+int str_copy_success()
 {
     printf("Testing str_copy...\n");
-    char src[] = "Hello World";
-    char dest[] = "";
-    str_copy(src, dest);
-    if (assert_str_equal("str_copy", src, dest))
+
+    // Define test strings
+    char *test_strs[] = {
+        "Hello World",
+        "This is another string to be copied!",
+        "60b28b9b-0c2b-4ac0-882b-66b89d26b9e9",
+        "string with     mul  ti     ple whitespa  ce  s",
+    };
+
+    // Iterate and test
+    int num_test_strs = sizeof(test_strs) / sizeof(test_strs[0]);
+    for (int i = 0; i < num_test_strs; i++)
     {
-        return 0;
+        char *src = test_strs[i];
+        char dest[100];
+        str_copy(src, dest);
+        if (!str_are_equal(src, dest))
+        {
+            return 0;
+        }
     }
-    else
-    {
-        return 1;
-    }
+
+    return 1;
 }
 
-int test_str_concat()
+int str_concat_success()
 {
     printf("Testing str_concat...\n");
 
     // Initialize variables
     char s1[] = "Hello";
     char s2[] = " World!";
+    char concat[] = "Hello World!";
 
     // Case 1: Happy Path (buffer large enough)
     char buf[100];
     size_t needed = str_concat(s1, s2, buf, 100);
 
     // Check if the eeded space is correct
-    if (needed != str_length(s1) + str_length(s2))
+    if (needed != str_length(concat))
     {
-        return 1;
+        return 0;
     }
 
-    // Create a string index and check s1
-    size_t s_idx = 0;
-    size_t buf_idx = 0;
-
-    while (s1[s_idx] != '\0')
+    // Check buf against concat
+    if (!str_are_equal(buf, concat))
     {
-        if (s1[s_idx] != buf[buf_idx])
-        {
-            return 1;
-        }
-
-        s_idx++;
-        buf_idx++;
+        return 0;
     }
 
-    // Reset and check s2
-    s_idx = 0;
-
-    while (s2[s_idx] != '\0')
-    {
-        if (s2[s_idx] != buf[buf_idx])
-        {
-            return 1;
-        }
-
-        s_idx++;
-        buf_idx++;
-    }
-
-    // Check if the string in the buffer ends here
-    if (buf[buf_idx] != '\0')
-    {
-        return 1;
-    }
-
-    // Success - return 0
-    return 0;
+    return 1;
 }

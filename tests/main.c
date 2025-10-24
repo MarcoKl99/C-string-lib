@@ -5,21 +5,21 @@
 int main()
 {
     // str_length
-    if (test_str_length() == 1)
+    if (!str_length_success())
     {
         printf("Failed: str_length\n");
         return 1;
     }
 
     // str_copy
-    if (test_str_copy() == 1)
+    if (!str_copy_success())
     {
         printf("Failed: str_copy\n");
         return 1;
     }
 
     // str_concat
-    if (test_str_concat() == 1)
+    if (!str_concat_success())
     {
         printf("Failed: str_concat\n");
         return 1;
