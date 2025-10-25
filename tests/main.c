@@ -4,6 +4,13 @@
 
 int main()
 {
+    // str_equal
+    if (!str_equal_success())
+    {
+        printf("Failed: str_equal\n");
+        return 1;
+    }
+
     // str_length
     if (!str_length_success())
     {

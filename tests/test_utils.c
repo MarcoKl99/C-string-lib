@@ -4,28 +4,6 @@
 #include "string_utils.h"
 #include "pair.h"
 
-// Utility function
-int str_are_equal(const char *str_1, const char *str_2)
-{
-    while (*str_1 != '\0' && *str_2 != '\0')
-    {
-        if (*str_1 != *str_2)
-        {
-            return 0;
-        }
-        str_1++;
-        str_2++;
-    }
-
-    // If lengths differ
-    if (*str_1 != *str_2)
-    {
-        return 0;
-    }
-
-    return 1;
-}
-
 // Function tests
 int str_length_success()
 {
@@ -76,7 +54,7 @@ int str_copy_success()
         char *src = test_strs[i];
         char dest[100];
         str_copy(src, dest);
-        if (!str_are_equal(src, dest))
+        if (!str_equal(src, dest))
         {
             return 0;
         }
@@ -112,7 +90,7 @@ int str_concat_success()
     }
 
     // Check buf against concat
-    if (!str_are_equal(buf, concat))
+    if (!str_equal(buf, concat))
     {
         return 0;
     }
@@ -129,11 +107,52 @@ int str_concat_success()
     }
 
     // Check that the string was not written in the too small buffer
-    if (str_are_equal(buf_small, concat))
+    if (str_equal(buf_small, concat))
     {
         return 0;
     }
 
     // Success - all tests passed
+    return 1;
+}
+
+int str_equal_success()
+{
+    printf("Testing str_equal...\n");
+
+    // Define sample strings to test on
+    char *strings[] = {
+        "Hello",
+        "   ",
+        "This is a longer text!",
+        "",
+    };
+    int num_samples = sizeof(strings) / sizeof(strings[0]);
+
+    // Iterate and check against themselves -> should be true
+    for (int i = 0; i < num_samples; i++)
+    {
+        // Check against all strings - the same must return 1, all others 0
+        for (int k = 0; k < num_samples; k++)
+        {
+            int equal = str_equal(strings[i], strings[k]);
+            int desired;
+
+            if (i == k)
+            {
+                desired = 1;
+            }
+            else
+            {
+                desired = 0;
+            }
+
+            if (equal != desired)
+            {
+                return 0;
+            }
+        }
+    }
+
     return 1;
 }

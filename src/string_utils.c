@@ -89,3 +89,24 @@ size_t str_concat(const char *s1, const char *s2, char *buf, size_t buf_size)
 
     return needed;
 }
+
+int str_equal(const char *s1, const char *s2)
+{
+    while (*s1 != '\0' && *s2 != '\0')
+    {
+        if (*s1 != *s2)
+        {
+            return 0;
+        }
+        s1++;
+        s2++;
+    }
+
+    // If lengths differ
+    if (*s1 != *s2)
+    {
+        return 0;
+    }
+
+    return 1;
+}

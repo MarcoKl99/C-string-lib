@@ -40,13 +40,14 @@ C-string-lib/
 
 ## Functionalities ⚙️
 
-- `str_length`: Get the length of a given String
+- `str_equal`: Test if two given strings are equal
+- `str_length`: Get the length of a given string
 - `str_copy`: Copy a string from a source to a destination
 - `str_concat`: Concatenate two strings and write the result into a buffer (and check against buffer overflow)
 
 ## How to build 🏗️
 
-TO build the project, execute the following.
+To build the project, execute the following.
 
 ```bash
 make
