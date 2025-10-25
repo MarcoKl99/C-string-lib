@@ -32,6 +32,13 @@ int main()
         return 1;
     }
 
+    // str_find
+    if (!str_find_success())
+    {
+        printf("Failed: str_find...\n");
+        return 1;
+    }
+
     printf("Success!\n");
 
     return 0;

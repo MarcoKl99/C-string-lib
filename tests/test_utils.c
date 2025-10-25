@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include "test_utils.h"
 #include "string_utils.h"
+
+// Types
 #include "pair.h"
+#include "string_tuple.h"
 
 // Function tests
 int str_length_success()
@@ -151,6 +154,53 @@ int str_equal_success()
             {
                 return 0;
             }
+        }
+    }
+
+    return 1;
+}
+
+int str_find_success()
+{
+    printf("Testing str_find...\n");
+
+    // Define test data for matches
+    const StringTuple test_data_match[] = {
+        {"Hello", "He"},
+        {"This is a beautiful text that we read here thank you for reading!", "text that "},
+        {"Programming", "gram"},
+        {"Any random string", ""},
+        {"", ""},
+    };
+
+    size_t num_matches = sizeof(test_data_match) / sizeof(test_data_match[0]);
+
+    for (int i = 0; i < num_matches; i++)
+    {
+        const char *found = str_find(test_data_match[i].s1, test_data_match[i].s2);
+        if (found == NULL)
+        {
+            // Should have found that - return false
+            return 0;
+        }
+    }
+
+    const StringTuple test_data_mismatch[] = {
+        {"Have a great day!", "abc"},
+        {"What is this test even?", "!"},
+        {"ckjsdhgtisr", "solar system (WHAT?)"},
+        {"", "a"},
+    };
+
+    size_t num_mismatches = sizeof(test_data_mismatch) / sizeof(test_data_mismatch[0]);
+
+    for (int i = 0; i < num_mismatches; i++)
+    {
+        const char *found = str_find(test_data_mismatch[i].s1, test_data_mismatch[i].s2);
+        if (found != NULL)
+        {
+            // Was found but should not be there - return false
+            return 0;
         }
     }
 

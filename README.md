@@ -44,6 +44,7 @@ C-string-lib/
 - `str_length`: Get the length of a given string
 - `str_copy`: Copy a string from a source to a destination
 - `str_concat`: Concatenate two strings and write the result into a buffer (and check against buffer overflow)
+- `str_find`: Search for a substring (needle 🪡) in a string (haystack 🌾) and return the pointer to the first occurance... jup, that emoji was as close as I could get to a haystack
 
 ## How to build 🏗️
 

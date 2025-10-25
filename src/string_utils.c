@@ -110,3 +110,57 @@ int str_equal(const char *s1, const char *s2)
 
     return 1;
 }
+
+const char *str_find(const char *haystack, const char *needle)
+{
+    // Find the needle in the haystack hehe ;)
+
+    // Catch the case that the needle is the empty string
+    if (*needle == '\0')
+    {
+        // Return the haystack pointer, as the empty string is always there... somehow
+        return haystack;
+    }
+
+    // Initialize current needle position, last started streak, state (is_streak)
+    const char *needle_current = needle;
+    const char *streak_start = NULL;
+    size_t is_streak = 0;
+
+    // Iterate through the haystack and search for a match in the first character
+    while (*haystack != '\0')
+    {
+        // Check against the current needle position
+        if (*haystack == *needle_current)
+        {
+            if (!is_streak)
+            {
+                // Start the streak
+                is_streak = 1;
+                streak_start = haystack;
+            }
+            needle_current++;
+        }
+        else
+        {
+            if (is_streak)
+            {
+                // Reset the streak
+                streak_start = NULL;
+                is_streak = 0;
+                needle_current = needle;
+            }
+        }
+
+        // Check if the entire string has been found
+        if (*needle_current == '\0')
+        {
+            // Terminate
+            return streak_start;
+        }
+
+        haystack++;
+    }
+
+    return NULL;
+}
