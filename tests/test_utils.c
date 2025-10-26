@@ -206,3 +206,48 @@ int str_find_success()
 
     return 1;
 }
+
+int str_reverse_success()
+{
+    printf("Testing str_reverse...\n");
+
+    // Check for NULL pointer
+    if (str_reverse(NULL) != NULL)
+    {
+        return 0;
+    }
+
+    // Define test data
+    StringTuple test_data[] = {
+        {"Hello", "olleH"},
+        {"123", "321"},
+        {" ", " "},
+        {"This text right here is a little bit longer! ...Nice ;)", "); eciN... !regnol tib elttil a si ereh thgir txet sihT"},
+        {"anna", "anna"},
+    };
+
+    // Check the individual test datapoints
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+    for (int i = 0; i < num_test_data; i++)
+    {
+        char *rev = str_reverse(test_data[i].s1);
+
+        // Check for null pointer
+        if (!rev)
+        {
+            return 0;
+        }
+
+        // Check that the reversed string is the correct one
+        if (!str_equal(rev, test_data[i].s2))
+        {
+            free(rev);
+            return 0;
+        }
+
+        // Free the allocated memory from this test run
+        free(rev);
+    }
+
+    return 1;
+}

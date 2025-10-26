@@ -39,6 +39,13 @@ int main()
         return 1;
     }
 
+    // str_reverse
+    if (!str_reverse_success())
+    {
+        printf("Failed: str_reverse...\n");
+        return 1;
+    }
+
     printf("Success!\n");
 
     return 0;

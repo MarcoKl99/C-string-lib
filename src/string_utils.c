@@ -164,3 +164,30 @@ const char *str_find(const char *haystack, const char *needle)
 
     return NULL;
 }
+
+char *str_reverse(char *str)
+{
+    // Protect against NULL pointer
+    if (str == NULL)
+    {
+        return NULL;
+    }
+
+    size_t len = str_length(str);
+    char *rev = malloc(len + 1); // +1 due to '\0' at the end
+
+    // Secure against memory errors
+    if (!rev)
+    {
+        return NULL;
+    }
+
+    // Assign the chars in switched order
+    for (int i = 0; i < len; i++)
+    {
+        rev[i] = str[len - 1 - i];
+    }
+    rev[len] = '\0';
+
+    return rev;
+}
