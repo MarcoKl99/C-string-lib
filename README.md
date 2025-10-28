@@ -45,7 +45,8 @@ C-string-lib/
 - `str_copy`: Copy a string from a source to a destination
 - `str_concat`: Concatenate two strings and write the result into a buffer (and check against buffer overflow)
 - `str_find`: Search for a substring (needle 🪡) in a string (haystack 🌾) and return the pointer to the first occurance... jup, that emoji was as close as I could get to a haystack
-- `str_reverse`: Reverse a given string (not in place, memory is allocated on the heap to, as the caller, not have to handle read-only literals, the char * to the heap is returned)
+- `str_reverse`: Reverse a given string (not in place)
+- `str_to_upper`: Convert a given string to upper case (not in place)
 
 ## How to build 🏗️
 

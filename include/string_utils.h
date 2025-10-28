@@ -9,5 +9,6 @@ size_t str_concat(const char *s1, const char *s2, char *buf, size_t buf_size);
 int str_equal(const char *s1, const char *s2);
 const char *str_find(const char *haystack, const char *needle);
 char *str_reverse(char *str);
+char *str_to_upper(char *s);
 
 #endif

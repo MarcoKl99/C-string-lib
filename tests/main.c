@@ -46,6 +46,13 @@ int main()
         return 1;
     }
 
+    // str_to_upper
+    if (!str_to_upper_success())
+    {
+        printf("Failed: str_to_upper...\n");
+        return 1;
+    }
+
     printf("Success!\n");
 
     return 0;

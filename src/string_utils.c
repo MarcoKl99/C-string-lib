@@ -92,6 +92,22 @@ size_t str_concat(const char *s1, const char *s2, char *buf, size_t buf_size)
 
 int str_equal(const char *s1, const char *s2)
 {
+    // Check if one of the pointers is NULL
+    if (s1 == NULL && s2 != NULL)
+    {
+        return 0;
+    }
+
+    if (s2 == NULL && s1 != NULL)
+    {
+        return 0;
+    }
+
+    if (s1 == NULL && s2 == NULL)
+    {
+        return 1;
+    }
+
     while (*s1 != '\0' && *s2 != '\0')
     {
         if (*s1 != *s2)
@@ -190,4 +206,39 @@ char *str_reverse(char *str)
     rev[len] = '\0';
 
     return rev;
+}
+
+char *str_to_upper(char *s)
+{
+    // Catch the case of NULL pointer
+    if (s == NULL)
+    {
+        return NULL;
+    }
+
+    // Allocate memory on the heap for the new string (avoids read-only problems with string literals)
+    char *s_upper = malloc(str_length(s) + 1);  // + 1 due to '\0'
+
+    // Save the init pointer to return later
+    char *res_p = s_upper;
+
+    while (*s != '\0')
+    {
+        // Check if the char lies in the uppercase part of ASCII
+        if (*s >= 'a' && *s <= 'z')
+        {
+            // Set the uppercase value in the ASCII table
+            *s_upper = *s - ('a' - 'A');
+        }
+        else
+        {
+            // Char is already upper case
+            *s_upper = *s;
+        }
+
+        s++;
+        s_upper++;
+    }
+
+    return res_p;
 }

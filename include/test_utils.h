@@ -8,5 +8,6 @@ int str_concat_success();
 int str_equal_success();
 int str_find_success();
 int str_reverse_success();
+int str_to_upper_success();
 
 #endif

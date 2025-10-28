@@ -251,3 +251,33 @@ int str_reverse_success()
 
     return 1;
 }
+
+int str_to_upper_success()
+{
+    printf("Testing str_to_upper...\n");
+
+    // Create test data
+    StringTuple test_data[] = {
+        {NULL, NULL},
+        {"hello", "HELLO"},
+        {"UPPER", "UPPER"},
+        {"This is a Mix oF lowercAsE and UpperCAse!", "THIS IS A MIX OF LOWERCASE AND UPPERCASE!"},
+        {"123", "123"},
+        {"!&$", "!&$"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        char *upper = str_to_upper(test_data[i].s1);
+        if (!str_equal(upper, test_data[i].s2))
+        {
+            return 0;
+        }
+
+        free(upper);
+    }
+
+    return 1;
+}
