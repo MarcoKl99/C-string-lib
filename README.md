@@ -47,6 +47,8 @@ C-string-lib/
 - `str_find`: Search for a substring (needle 🪡) in a string (haystack 🌾) and return the pointer to the first occurance... jup, that emoji was as close as I could get to a haystack
 - `str_reverse`: Reverse a given string (not in place)
 - `str_to_upper`: Convert a given string to upper case (not in place)
+- `str_count`: Count the number of occurrences of a char in a given string
+- `str_split`: Split a string by a given char, return a list of strings resulting from the split
 
 ## How to build 🏗️
 
