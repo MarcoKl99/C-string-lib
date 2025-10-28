@@ -1,4 +1,5 @@
 #include "string_utils.h"
+#include <stdio.h>
 
 size_t str_length(const char *str)
 {
@@ -241,4 +242,115 @@ char *str_to_upper(char *s)
     }
 
     return res_p;
+}
+
+size_t str_count(const char *s, char c)
+{
+    if (!s) return 0;
+
+    size_t count = 0;
+
+    while (*s != '\0')
+    {
+        if (*s == c)
+        {
+            count++;
+        }
+
+        s++;
+    }
+
+    return count;
+}
+
+char **str_split(const char *s, char delimiter, size_t *count)
+{
+    // Catch the case of the null pointer
+    if (!s)
+    {
+        if (count) *count = 0;
+        return NULL;
+    }
+
+    // Count the number of required tokens (substrings)
+    size_t num_tokens = str_count(s, delimiter) + 1;
+
+    // Create a list of sizes of the tokens
+    size_t *sizes = malloc(num_tokens * sizeof(size_t));
+    if (!sizes)
+    {
+        if (count) *count = 0;
+        return NULL;
+    }
+
+    // Fill the sizes of the tokens
+    size_t size_token = 0, idx = 0;
+    for (const char *p = s; ; p++)
+    {
+        if (*p == delimiter || *p == '\0')
+        {
+            // Save the current size of the token
+            sizes[idx++] = size_token;
+
+            // Reset the size for the next token
+            size_token = 0;
+
+            // Break if the string is at the end
+            if (*p == '\0') break;
+        }
+        else
+        {
+            // Do not increase the size token at the delimiter! -> Only here when another char was found
+            size_token++;
+        }
+    }
+
+    // Allocate the size for the array of tokens
+    char **tokens = malloc(num_tokens * sizeof(char *));
+    if (!tokens)
+    {
+        free(sizes);
+        if (count) *count = 0;
+        return NULL;
+    }
+
+    // Iterate through the string again and save the corresponding tokens
+    size_t offset = 0;
+    for (size_t i = 0; i < num_tokens; i++)
+    {
+        // Allocate memory for the token on the heap
+        char *token = malloc((sizes[i] + 1) * sizeof(char));
+        if (!token)
+        {
+            // Free all previously allocated tokens
+            for (size_t j = 0; j < i; j++)
+            {
+                free(tokens[j]);
+            }
+
+            // Reset the rest and return NULL
+            free(tokens);
+            free(sizes);
+            if (count) *count = 0;
+            return NULL;
+        }
+
+        char *token_start = token;
+        for (size_t k = 0; k < sizes[i]; k++)
+        {
+            token[k] = s[offset + k];
+        }
+        token[sizes[i]] = '\0';
+
+        offset += sizes[i] + 1;
+        tokens[i] = token_start;
+    }
+
+    // Set the number of tokens to the count variable via the passed pointer
+    if (count) *count = num_tokens;
+
+    // Free the sizes array
+    free(sizes);
+
+    return tokens;
 }

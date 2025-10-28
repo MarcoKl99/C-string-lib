@@ -9,5 +9,7 @@ int str_equal_success();
 int str_find_success();
 int str_reverse_success();
 int str_to_upper_success();
+int str_count_success();
+int str_split_success();
 
 #endif

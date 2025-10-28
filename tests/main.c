@@ -53,6 +53,20 @@ int main()
         return 1;
     }
 
+    // str_count
+    if (!str_count_success())
+    {
+        printf("Failed: str_count...\n");
+        return 1;
+    }
+
+    // str_split
+    if (!str_split_success())
+    {
+        printf("Failed: str_split...\n");
+        return 1;
+    }
+
     printf("Success!\n");
 
     return 0;

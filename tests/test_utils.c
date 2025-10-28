@@ -5,6 +5,8 @@
 
 // Types
 #include "pair.h"
+#include "str_split_test_data.h"
+#include "str_count_test_data.h"
 #include "string_tuple.h"
 
 // Function tests
@@ -277,6 +279,86 @@ int str_to_upper_success()
         }
 
         free(upper);
+    }
+
+    return 1;
+}
+
+int str_count_success()
+{
+    printf("Testing str_count...\n");
+
+    // Define the test data
+    StrCountTestData test_data[] = {
+        {"Hallo", 'l', 2},
+        {"This is a cool test ;)", ' ', 5},
+        {"          ", ' ', 10},
+        {NULL, ' ', 0}
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    size_t count;
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        count = str_count(test_data[i].s, test_data[i].c);
+        if (count != test_data[i].count) return 0;
+    }
+
+    return 1;
+}
+
+int str_split_success()
+{
+    printf("Testing str_split...\n");
+
+    // Init the count variable
+    size_t count;
+
+    // Define the test data
+    const char *tokens1[] = {"Hello", "World"};
+    StrSplitTestData td1 = {"Hello World", ' ', 2, tokens1};
+
+    const char *tokens2[] = {"This", "is", "very", "cool", ";)"};
+    StrSplitTestData td2 = {"This is very cool ;)", ' ', 5, tokens2};
+
+    const char *tokens3[] = {"", "es", "word"};
+    StrSplitTestData td3 = {"testword", 't', 3, tokens3};
+
+    const char *tokens4[] = {"", "nn", ""};
+    StrSplitTestData td4 = {"anna", 'a', 3, tokens4};
+
+    const char *tokens5[] = {"a", "", "a"};
+    StrSplitTestData td5 = {"anna", 'n', 3, tokens5};
+
+    const char *tokens6[] = {"t", "", "", "", "st"};
+    StrSplitTestData td6 = {"teeeest", 'e', 5, tokens6};
+
+    const char *tokens7[] = {""};
+    StrSplitTestData td7 = {"", ' ', 1, tokens7};
+
+    const char *tokens8[] = {};
+    StrSplitTestData td8 = {NULL, ' ', 0, tokens8};
+
+    // Colelct the defined test data
+    StrSplitTestData test_data[] = {td1, td2, td3, td4, td5, td6, td7, td8};
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    StrSplitTestData td;
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        td = test_data[i];
+        char **split = str_split(td.s, td.delimiter, &count);
+
+        if (count != td.num_tokens) return 0;
+
+        for (size_t k = 0; k < count; k++)
+        {
+            if (!str_equal(split[k], td.tokens[k])) return 0;
+        }
+
+        for (size_t k = 0; k < count; k++) free(split[k]);
+        if (split) free(split);
     }
 
     return 1;
