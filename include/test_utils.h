@@ -11,5 +11,6 @@ int str_reverse_success();
 int str_to_upper_success();
 int str_count_success();
 int str_split_success();
+int str_trim_success();
 
 #endif

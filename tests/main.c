@@ -67,6 +67,13 @@ int main()
         return 1;
     }
 
+    // str_trim
+    if (!str_trim_success())
+    {
+        printf("Failed: str_trim...\n");
+        return 1;
+    }
+
     printf("Success!\n");
 
     return 0;

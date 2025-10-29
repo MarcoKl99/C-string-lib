@@ -12,5 +12,6 @@ char *str_reverse(char *str);
 char *str_to_upper(char *s);
 size_t str_count(const char *s, char c);
 char **str_split(const char *s, char delimiter, size_t *count);
+char *str_trim(const char *s);
 
 #endif

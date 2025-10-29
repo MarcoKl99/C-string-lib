@@ -49,6 +49,7 @@ C-string-lib/
 - `str_to_upper`: Convert a given string to upper case (not in place)
 - `str_count`: Count the number of occurrences of a char in a given string
 - `str_split`: Split a string by a given char, return a list of strings resulting from the split
+- `str_trim`: Trim leading and trailing whitespaces from a given string
 
 ## How to build 🏗️
 

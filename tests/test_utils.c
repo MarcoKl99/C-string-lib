@@ -363,3 +363,34 @@ int str_split_success()
 
     return 1;
 }
+
+int str_trim_success()
+{
+    printf("Testing str_trim...\n");
+
+    StringTuple test_data[] = {
+        {"Hello", "Hello"},
+        {" World", "World"},
+        {"Programming ", "Programming"},
+        {"   in  ", "in"},
+        {"a      cb", "a      cb"},
+        {"   ", ""},
+        {" ", ""},
+        {"", ""},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        char *trimmed = str_trim(test_data[i].s1);
+        if (!str_equal(trimmed, test_data[i].s2))
+        {
+            free(trimmed);
+            return 0;
+        }
+        free(trimmed);
+    }
+    
+    return 1;
+}

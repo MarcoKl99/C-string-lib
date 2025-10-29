@@ -354,3 +354,52 @@ char **str_split(const char *s, char delimiter, size_t *count)
 
     return tokens;
 }
+
+char *str_trim(const char *s)
+{
+    // Null pointer check
+    if (!s)
+        return NULL;
+
+    // Sace the indices from and to which the trimmed string spans
+    int num_leading_ws = 0;
+    int num_trailing_ws = 0;
+
+    // Determine the number of leading whitespaces
+    const char *tmp = s;
+    while (*tmp == ' ')
+    {
+        num_leading_ws++;
+        tmp++;
+    }
+
+    // Determine the number of trailing whitespaces
+    tmp = s + str_length(s) - 1;
+    while (*tmp == ' ')
+    {
+        num_trailing_ws++;
+        tmp--;
+    }
+
+    // Create the new string
+    int new_len = str_length(s) - num_leading_ws - num_trailing_ws;
+
+    // Catch case of negative new len
+    if (new_len < 0)
+    {
+        new_len = 0;
+    }
+
+    char *trimmed = malloc((new_len + 1) * sizeof(char));
+    if (!trimmed)
+        return NULL;
+
+    // Fill the trimmed string
+    for (size_t i = 0; i < new_len; i++)
+    {
+        trimmed[i] = s[num_leading_ws + i];
+    }
+    trimmed[new_len] = '\0';
+
+    return trimmed;
+}
