@@ -1,8 +1,14 @@
 #include "string_utils.h"
+#include "strlib.h"
 #include <stdio.h>
 
+///////////////////////////////////////
+// Utility functions based on char * //
+///////////////////////////////////////
 size_t str_length(const char *str)
 {
+    if (!str) return 0;
+
     // Init a counter and increment until the '\0' char is found
     size_t len = 0;
     while (str[len] != '\0')
@@ -17,78 +23,6 @@ size_t str_length(const char *str)
     }
 
     return len;
-}
-
-char *str_copy(const char *src, char *dest)
-{
-    // Save where dest begins for return
-    char *start = dest;
-
-    // Iterate over src until we find the terminator
-    while (*src != '\0')
-    {
-        *dest = *src;
-        dest++;
-        src++;
-    }
-
-    // Set the terminator at the end of dest
-    *dest = '\0';
-
-    return start;
-}
-
-size_t str_concat(const char *s1, const char *s2, char *buf, size_t buf_size)
-{
-    // Check if s1 and s2 are present
-    if (!s1)
-    {
-        s1 = "";
-    }
-
-    if (!s2)
-    {
-        s2 = "";
-    }
-
-    // Determine the sizes of s1 and s2
-    size_t len1 = str_length(s1);
-    size_t len2 = str_length(s2);
-
-    if (SIZE_MAX - len1 < len2)
-    {
-        // Signal error
-        return SIZE_MAX;
-    }
-
-    // Calculate the size that is needed for the operation (without NUL)
-    size_t needed = len1 + len2;
-
-    if (buf_size == 0)
-    {
-        return needed;
-    }
-
-    // Calculate the space that can actually be written (keep 1 for NUL at the end)
-    size_t space = buf_size - 1;
-    size_t buf_idx = 0;
-
-    for (size_t i = 0; i < len1 && buf_idx < space; i++)
-    {
-        buf[buf_idx] = s1[i];
-        buf_idx++;
-    }
-
-    for (size_t i = 0; i < len2 && buf_idx < space; i++)
-    {
-        buf[buf_idx] = s2[i];
-        buf_idx++;
-    }
-
-    // Write the NUL symbol at the end
-    buf[buf_idx] = '\0';
-
-    return needed;
 }
 
 int str_equal(const char *s1, const char *s2)
@@ -128,6 +62,123 @@ int str_equal(const char *s1, const char *s2)
     return 1;
 }
 
+char *str_copy(const char *src, char *dest)
+{
+    // Save where dest begins for return
+    char *start = dest;
+
+    // Iterate over src until we find the terminator
+    while (*src != '\0')
+    {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+
+    // Set the terminator at the end of dest
+    *dest = '\0';
+
+    return start;
+}
+
+
+//////////////////////////////////
+// Functions based on dstring_t //
+//////////////////////////////////
+dstring_t *dstring_init(const char *init_text)
+{
+    dstring_t *s = malloc(sizeof(dstring_t));
+    if (!s) return NULL;
+
+    if (init_text)
+    {
+        // Init text was given
+        s->length = str_length(init_text);
+        s->capacity = (s->length + 1 > STR_INIT_CAPACITY) ? s->length + 1 : STR_INIT_CAPACITY;
+        s->data = malloc(s->capacity);
+        
+        // Check if data was successfully initialized
+        if (!s->data)
+        {
+            free(s);
+            return NULL;
+        }
+
+        // Copy the init text to the dstrings data
+        str_copy(init_text, s->data);
+    }
+    else
+    {
+        // No init text was given -> init empty
+        s->length = 0;
+        s->capacity = STR_INIT_CAPACITY;
+        s->data = malloc(s->capacity);
+        if (!s->data)
+        {
+            free(s);
+            return NULL;
+        }
+        s->data[0] = '\0';
+    }
+
+    return s;
+}
+
+void dstring_free(dstring_t *s)
+{
+    // Check for NULL value
+    if (!s) return;
+
+    // Free the data
+    free(s->data);
+
+    // Avoid dangling pointers -> reset the values
+    s->data = NULL;
+    s->length = 0;
+    s->capacity = 0;
+
+    // Free the object itself
+    free(s);
+}
+
+void dstring_append(dstring_t *s, const char *suffix)
+{
+    if (!s || !suffix) return;
+
+    // Check the new required capacity
+    size_t l_add = str_length(suffix);
+    size_t l_new = s->length + l_add;
+
+    // Check if the data must be reallocated
+    if (s->capacity < (l_new + 1))
+    {
+        size_t new_capacity = s->capacity * 2;
+        while (new_capacity < l_new + 1)
+            new_capacity *= 2;
+
+        char *tmp = realloc(s->data, new_capacity);
+        if (!tmp)
+            return;
+
+        s->data = tmp;
+        s->capacity = new_capacity;
+    }
+
+    // Write the old data
+    for (size_t i = 0; i < l_add; i++)
+    {
+        s->data[s->length + i] = suffix[i];
+    }
+
+    // Terminate the local concat string
+    s->length = l_new;
+    s->data[s->length] = '\0';
+}
+
+
+////////////////
+// Deprecated //
+////////////////
 const char *str_find(const char *haystack, const char *needle)
 {
     // Find the needle in the haystack hehe ;)

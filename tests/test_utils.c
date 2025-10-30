@@ -8,8 +8,12 @@
 #include "str_split_test_data.h"
 #include "str_count_test_data.h"
 #include "string_tuple.h"
+#include "string_triple.h"
 
-// Function tests
+
+////////////////////////////////////////
+// Testing utility functions (char *) //
+////////////////////////////////////////
 int str_length_success()
 {
     printf("Testing str_length...\n");
@@ -68,58 +72,6 @@ int str_copy_success()
     return 1;
 }
 
-int str_concat_success()
-{
-    printf("Testing str_concat...\n");
-
-    // Initialize variables
-    char s1[] = "Hello";
-    char s2[] = " World!";
-    char concat[] = "Hello World!";
-
-    // Case 1: Happy Path (buffer large enough)
-    size_t buf_size = 100;
-    char buf[buf_size];
-    size_t needed = str_concat(s1, s2, buf, buf_size);
-
-    // Check if the eeded space is correct
-    if (needed != str_length(concat))
-    {
-        return 0;
-    }
-
-    // Check that the needed size is smaller than the buf_size
-    if (needed >= buf_size)
-    {
-        return 0;
-    }
-
-    // Check buf against concat
-    if (!str_equal(buf, concat))
-    {
-        return 0;
-    }
-
-    // Case 2: Buffer too small
-    buf_size = 3;
-    char buf_small[buf_size];
-    needed = str_concat(s1, s2, buf_small, buf_size);
-
-    // Check that the required space is more than buf_size -> indicate error
-    if (needed <= buf_size)
-    {
-        return 0;
-    }
-
-    // Check that the string was not written in the too small buffer
-    if (str_equal(buf_small, concat))
-    {
-        return 0;
-    }
-
-    // Success - all tests passed
-    return 1;
-}
 
 int str_equal_success()
 {
@@ -162,6 +114,56 @@ int str_equal_success()
     return 1;
 }
 
+
+/////////////////////////////////
+// Testing dstring_t functions //
+/////////////////////////////////
+int dstring_append_success()
+{
+    printf("Testing dstring_append...\n");
+
+    // Define test data
+    StringTriple test_data[] = {
+        {"Hello", " World", "Hello World"},
+        {"Hey this is a litt", "le bit longer of a text!", "Hey this is a little bit longer of a text!"},
+        {"", "Hey", "Hey"},
+        {"", "", ""},
+        {NULL, "Hello", "Hello"},
+        {"Hey", NULL, "Hey"},
+        {NULL, NULL, ""},
+        {"I was", " searching for a seg fault until midnight here!", "I was searching for a seg fault until midnight here!"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StringTriple t = test_data[i];
+
+        // Create the dstring_t out of the frist one
+        dstring_t *s = dstring_init(t.s1);
+        dstring_append(s, t.s2);
+
+        int equal = str_equal(s->data, t.s3);
+        int correct_length = s->length == str_length(t.s1) + str_length(t.s2);
+        int sufficient_capacity = s->length < s->capacity;
+
+        if (!equal || !correct_length || !sufficient_capacity)
+        {
+            return 0;
+        }
+
+        // Free the dstring_t instance
+        dstring_free(s);
+    }
+
+    return 1;
+}
+
+
+////////////////
+// Deprecated //
+////////////////
 int str_find_success()
 {
     printf("Testing str_find...\n");

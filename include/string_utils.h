@@ -2,11 +2,25 @@
 #define STRING_UTILS_H
 
 #include <stdlib.h>
+#include "strlib.h"
 
+///////////////////////////////////////
+// Utility functions based on char * //
+///////////////////////////////////////
 size_t str_length(const char *str);
-char *str_copy(const char *src, char *dest);
-size_t str_concat(const char *s1, const char *s2, char *buf, size_t buf_size);
 int str_equal(const char *s1, const char *s2);
+char *str_copy(const char *src, char *dest);
+
+//////////////////////////////////
+// Functions based on dstring_t //
+//////////////////////////////////
+dstring_t *dstring_init(const char *init_text);
+void dstring_free(dstring_t *s);
+void dstring_append(dstring_t *s, const char *suffix);
+
+////////////////
+// Deprecated //
+////////////////
 const char *str_find(const char *haystack, const char *needle);
 char *str_reverse(char *str);
 char *str_to_upper(char *s);

@@ -1,5 +1,7 @@
 # C-string-lib - Implementation of utilities to work with Strings in C! 🚀
 
+***TO-DO:** Adapt this to reflect the dstring_t implementation!*
+
 Welcome to this small project on a few implementations of utility functions regarding Strings in C!
 
 ## Goal 🎯
@@ -40,10 +42,18 @@ C-string-lib/
 
 ## Functionalities ⚙️
 
+### Utility Functions (char *)
+
 - `str_equal`: Test if two given strings are equal
 - `str_length`: Get the length of a given string
 - `str_copy`: Copy a string from a source to a destination
-- `str_concat`: Concatenate two strings and write the result into a buffer (and check against buffer overflow)
+
+### New dstring_t Functions
+
+- `dstring_append`: Append a char * to a given data array in a dstring instance, maintaining the struct consistency
+
+### Deprecated
+
 - `str_find`: Search for a substring (needle 🪡) in a string (haystack 🌾) and return the pointer to the first occurance... jup, that emoji was as close as I could get to a haystack
 - `str_reverse`: Reverse a given string (not in place)
 - `str_to_upper`: Convert a given string to upper case (not in place)

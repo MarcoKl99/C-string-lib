@@ -4,70 +4,69 @@
 
 int main()
 {
-    // str_equal
-    if (!str_equal_success())
-    {
-        printf("Failed: str_equal\n");
-        return 1;
-    }
-
-    // str_length
+    ////////////////////////////////////////
+    // Testing utility functions (char *) //
+    ////////////////////////////////////////
     if (!str_length_success())
     {
         printf("Failed: str_length\n");
         return 1;
     }
 
-    // str_copy
+    if (!str_equal_success())
+    {
+        printf("Failed: str_equal\n");
+        return 1;
+    }
+
     if (!str_copy_success())
     {
         printf("Failed: str_copy\n");
         return 1;
     }
 
-    // str_concat
-    if (!str_concat_success())
+    /////////////////////////////////
+    // Testing dstring_t functions //
+    /////////////////////////////////
+    if (!dstring_append_success())
     {
-        printf("Failed: str_concat\n");
+        printf("Failed: dstring_append\n");
         return 1;
     }
 
-    // str_find
+    ////////////////
+    // Deprecated //
+    ////////////////
     if (!str_find_success())
     {
         printf("Failed: str_find...\n");
         return 1;
     }
 
-    // str_reverse
     if (!str_reverse_success())
     {
         printf("Failed: str_reverse...\n");
         return 1;
     }
 
-    // str_to_upper
     if (!str_to_upper_success())
     {
         printf("Failed: str_to_upper...\n");
         return 1;
     }
 
-    // str_count
     if (!str_count_success())
     {
         printf("Failed: str_count...\n");
         return 1;
     }
 
-    // str_split
     if (!str_split_success())
     {
         printf("Failed: str_split...\n");
         return 1;
     }
 
-    // str_trim
     if (!str_trim_success())
     {
         printf("Failed: str_trim...\n");
