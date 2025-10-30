@@ -244,23 +244,39 @@ char *str_to_upper(char *s)
     return res_p;
 }
 
-size_t str_count(const char *s, char c)
+size_t str_count(const char *s, const char *substr)
 {
-    if (!s) return 0;
+    // Catch NULL pointers
+    if (!s || !substr)
+        return 0;
 
-    size_t count = 0;
+    // Resetable pointer for the substring to search for and number of occurences
+    const char *substr_sp = substr;
+    size_t num_occurences = 0;
 
     while (*s != '\0')
     {
-        if (*s == c)
+        // Check if we are at the position of a substr occurence
+        if (*s == *substr_sp)
         {
-            count++;
+            substr_sp++;
+        }
+        else
+        {
+            // Reset
+            substr_sp = substr;
         }
 
+        if (*substr_sp == '\0')
+        {
+            // Found the entire substr! Increase counter and reset search pointer
+            num_occurences++;
+            substr_sp = substr;
+        }
         s++;
     }
 
-    return count;
+    return num_occurences;
 }
 
 char **str_split(const char *s, char delimiter, size_t *count)
@@ -272,8 +288,13 @@ char **str_split(const char *s, char delimiter, size_t *count)
         return NULL;
     }
 
+    // Make the delimtier char a string for the str_count function
+    char delimiter_str[2];
+    delimiter_str[0] = delimiter;
+    delimiter_str[1] = '\0';
+
     // Count the number of required tokens (substrings)
-    size_t num_tokens = str_count(s, delimiter) + 1;
+    size_t num_tokens = str_count(s, delimiter_str) + 1;
 
     // Create a list of sizes of the tokens
     size_t *sizes = malloc(num_tokens * sizeof(size_t));

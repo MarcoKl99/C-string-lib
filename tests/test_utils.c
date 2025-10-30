@@ -290,10 +290,13 @@ int str_count_success()
 
     // Define the test data
     StrCountTestData test_data[] = {
-        {"Hallo", 'l', 2},
-        {"This is a cool test ;)", ' ', 5},
-        {"          ", ' ', 10},
-        {NULL, ' ', 0}
+        {"Hello", "l", 2},
+        {"Hello", "He", 1},
+        {"This is a cool test ;)", " ", 5},
+        {"          ", " ", 10},
+        {NULL, " ", 0},
+        {"Some string", NULL, 0},
+        {"This is a cool string where we are looking for cool substrings... cool ;)", "cool", 3},
     };
 
     size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
@@ -301,7 +304,7 @@ int str_count_success()
     size_t count;
     for (size_t i = 0; i < num_test_data; i++)
     {
-        count = str_count(test_data[i].s, test_data[i].c);
+        count = str_count(test_data[i].s, test_data[i].substr);
         if (count != test_data[i].count) return 0;
     }
 

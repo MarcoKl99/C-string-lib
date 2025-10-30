@@ -5,7 +5,7 @@
 
 typedef struct {
     const char *s;
-    char c;
+    const char *substr;
     size_t count;
 } StrCountTestData;
 
