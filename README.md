@@ -1,10 +1,31 @@
 # C-string-lib - Implementation of utilities to work with Strings in C! 🚀
 
-Welcome to this small project on a few implementations of utility functions regarding Strings in C!
+Welcome to this small project on a few implementations of utilites regarding Strings in C!
+
+This project implements simple helper functions on char * like `str_equal` or `str_length`, I extended these functions to many cases, tested it and was happy with the outcome... when suddenly... 😮
+
+I was driving home from work 🚎, thinking about the next utility that I could implement... when a capable LLM decided to teach me about the concept of *memory ownership*!
+
+When performing operations on char * instances, suddenly a wild memory leak occured! To neutralize the threat, our heros (me and ChatGPT) started to implement a struct, wrapping the string's content (as a char *) into their own data structure and therfore passing the responsibility of memory management from the caller to the invoked function. After properly free-ing the memory and NULL-ing remaining pointers to that memory, the villagers could finally sleep well again... as far as this project goes, I know there are still fragments of the code that allow for that, but the basic concept is implemented in the usage of *dstruct_t*, don't be too strict plz 😉.
+
+In summary, this project provides a struct *dstring_t* that stores a pointer to a data array as well as the length of the string and the current capacity.
+
+```c
+typedef struct
+{
+    char *data;
+    size_t length;
+    size_t capacity;
+} dtype_d;
+```
+
+This dynamic string struct enables the caller to simply continue working with the current object, the reallocation of capacity is wrapped inside of the utility functions and abstracted away from the user, avoiding certain cases of memory leaks in the code.
+
+Also, the logic follows the principle of exponential growth of capacity when extending beyond, which results in an armortized complexity of O(1) per append.
 
 ## Goal 🎯
 
-This project aims for deepening the understanding of concepts in C regarding Strings, represented as Arrays of Characters. When working with this data structure, simple implementations show the basics of concepts such as
+While certainly not winning an award 🏆, this project aims for deepening the understanding of concepts in C regarding Strings, represented as Arrays of Characters, toghether with structs, memory ownership, memory leaks, dangling pointers and many more! When working with this data structure, simple implementations show the basics of concepts such as
 
 - String initialization and representation
 - Boundaries and the special null terminator `\0`
@@ -13,7 +34,7 @@ This project aims for deepening the understanding of concepts in C regarding Str
 - Basic structure of small projects
 - Compilation process using Makefiles
 
-Without using the string library `string.h`, this project implements basic functionalities as a learning path.
+Without using `string.h`, this project implements basic functionalities as a learning path.
 
 ## Project Structure 🧭
 
@@ -22,34 +43,56 @@ The project is structured in the following way.
 ```text
 C-string-lib/
 ├── include/
-│ └── string_utils.h
+│ ├── dtypes.h          // Definitions of data types
+│ ├── string_utils.h    // Headers for string functions
+│ └── test_utils.h      // Headers for test functions
 ├── src/
-│ └── string_utils.c
+│ └── string_utils.c    // Implementations of the string functions - core of the project
 ├── tests/
-│ └── main.c
-└── Makefile
+│ ├── main.c            // Invocations of the tests
+│ └── test_utils.c      // Implementations of the test functions
+└── Makefile            // Bob the builder right here 👷
 ```
-
-**include**: Header files
-
-**src:** Actual implementation of the modules (.c files)
-
-**tests:** Test programs
-
-**Makefile:** Build instructions
 
 ## Functionalities ⚙️
 
-- `str_equal`: Test if two given strings are equal
-- `str_length`: Get the length of a given string
-- `str_copy`: Copy a string from a source to a destination
-- `str_concat`: Concatenate two strings and write the result into a buffer (and check against buffer overflow)
-- `str_find`: Search for a substring (needle 🪡) in a string (haystack 🌾) and return the pointer to the first occurance... jup, that emoji was as close as I could get to a haystack
-- `str_reverse`: Reverse a given string (not in place)
-- `str_to_upper`: Convert a given string to upper case (not in place)
+You might say "Wow Marco, this project contains so many cool things" but wait! There's more!
+
+Both the string- and test-functions are divided into basic char * utilities and functions based on *dstring_t*, as indicated by the carefully handcrafted comments
+
+```c
+///////////////////////////////////////
+// Utility functions based on char * //
+///////////////////////////////////////
+```
+
+and
+
+```c
+//////////////////////////////////
+// Functions based on dstring_t //
+//////////////////////////////////
+```
+
+The below gives an overview of the functions implemented in the project.
+
+### Utility Functions (char *)
+
+- `str_length`: Get the length of a string
+- `str_equal`: Compare two strings for equality
+- `str_copy`: Copy one string to another
+- `str_find`: Find a substring (the needle) in a string (the haystack) and return a pointer to the first char of the occurrence if present
 - `str_count`: Count the number of occurrences of a substring in a given string
-- `str_split`: Split a string by a given char, return a list of strings resulting from the split
-- `str_trim`: Trim leading and trailing whitespaces from a given string
+- `str_split`: Split a string at a given substring and return a list of the resulting pieces (the famous pointer to pointer!)
+
+### New dstring_t Functions
+
+- `dstring_init`: Create a *dstring_t* instance based on a given char * string that it should contain
+- `dstring_free`: Properly free a given *dstring_t* and the containing string (No dangling pointers allowed in this house!)
+- `dstring_append`: Append a string to the given *dstring_t* instance, accounting for length, capacity, and a potential reallocation
+- `dstring_reverse`: Reverse a *dstring_t*
+- `dstring_to_upper`: Convert all chars in the given *dstring_t* content to uppercase
+- `dstring_trim`: Remove all leading and trailing whitespaces from the given string
 
 ## How to build 🏗️
 

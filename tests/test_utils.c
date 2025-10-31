@@ -4,12 +4,12 @@
 #include "string_utils.h"
 
 // Types
-#include "pair.h"
-#include "str_split_test_data.h"
-#include "str_count_test_data.h"
-#include "string_tuple.h"
+#include "dtypes.h"
 
-// Function tests
+
+////////////////////////////////////////
+// Testing utility functions (char *) //
+////////////////////////////////////////
 int str_length_success()
 {
     printf("Testing str_length...\n");
@@ -68,58 +68,6 @@ int str_copy_success()
     return 1;
 }
 
-int str_concat_success()
-{
-    printf("Testing str_concat...\n");
-
-    // Initialize variables
-    char s1[] = "Hello";
-    char s2[] = " World!";
-    char concat[] = "Hello World!";
-
-    // Case 1: Happy Path (buffer large enough)
-    size_t buf_size = 100;
-    char buf[buf_size];
-    size_t needed = str_concat(s1, s2, buf, buf_size);
-
-    // Check if the eeded space is correct
-    if (needed != str_length(concat))
-    {
-        return 0;
-    }
-
-    // Check that the needed size is smaller than the buf_size
-    if (needed >= buf_size)
-    {
-        return 0;
-    }
-
-    // Check buf against concat
-    if (!str_equal(buf, concat))
-    {
-        return 0;
-    }
-
-    // Case 2: Buffer too small
-    buf_size = 3;
-    char buf_small[buf_size];
-    needed = str_concat(s1, s2, buf_small, buf_size);
-
-    // Check that the required space is more than buf_size -> indicate error
-    if (needed <= buf_size)
-    {
-        return 0;
-    }
-
-    // Check that the string was not written in the too small buffer
-    if (str_equal(buf_small, concat))
-    {
-        return 0;
-    }
-
-    // Success - all tests passed
-    return 1;
-}
 
 int str_equal_success()
 {
@@ -209,81 +157,6 @@ int str_find_success()
     return 1;
 }
 
-int str_reverse_success()
-{
-    printf("Testing str_reverse...\n");
-
-    // Check for NULL pointer
-    if (str_reverse(NULL) != NULL)
-    {
-        return 0;
-    }
-
-    // Define test data
-    StringTuple test_data[] = {
-        {"Hello", "olleH"},
-        {"123", "321"},
-        {" ", " "},
-        {"This text right here is a little bit longer! ...Nice ;)", "); eciN... !regnol tib elttil a si ereh thgir txet sihT"},
-        {"anna", "anna"},
-    };
-
-    // Check the individual test datapoints
-    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
-    for (int i = 0; i < num_test_data; i++)
-    {
-        char *rev = str_reverse(test_data[i].s1);
-
-        // Check for null pointer
-        if (!rev)
-        {
-            return 0;
-        }
-
-        // Check that the reversed string is the correct one
-        if (!str_equal(rev, test_data[i].s2))
-        {
-            free(rev);
-            return 0;
-        }
-
-        // Free the allocated memory from this test run
-        free(rev);
-    }
-
-    return 1;
-}
-
-int str_to_upper_success()
-{
-    printf("Testing str_to_upper...\n");
-
-    // Create test data
-    StringTuple test_data[] = {
-        {NULL, NULL},
-        {"hello", "HELLO"},
-        {"UPPER", "UPPER"},
-        {"This is a Mix oF lowercAsE and UpperCAse!", "THIS IS A MIX OF LOWERCASE AND UPPERCASE!"},
-        {"123", "123"},
-        {"!&$", "!&$"},
-    };
-
-    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
-
-    for (size_t i = 0; i < num_test_data; i++)
-    {
-        char *upper = str_to_upper(test_data[i].s1);
-        if (!str_equal(upper, test_data[i].s2))
-        {
-            return 0;
-        }
-
-        free(upper);
-    }
-
-    return 1;
-}
-
 int str_count_success()
 {
     printf("Testing str_count...\n");
@@ -367,10 +240,119 @@ int str_split_success()
     return 1;
 }
 
-int str_trim_success()
-{
-    printf("Testing str_trim...\n");
 
+/////////////////////////////////
+// Testing dstring_t functions //
+/////////////////////////////////
+int dstring_append_success()
+{
+    printf("Testing dstring_append...\n");
+
+    // Define test data
+    StringTriple test_data[] = {
+        {"Hello", " World", "Hello World"},
+        {"Hey this is a litt", "le bit longer of a text!", "Hey this is a little bit longer of a text!"},
+        {"", "Hey", "Hey"},
+        {"", "", ""},
+        {NULL, "Hello", "Hello"},
+        {"Hey", NULL, "Hey"},
+        {NULL, NULL, ""},
+        {"I was", " searching for a seg fault until midnight here!", "I was searching for a seg fault until midnight here!"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StringTriple t = test_data[i];
+
+        // Create the dstring_t out of the frist one
+        dstring_t *s = dstring_init(t.s1);
+        dstring_append(s, t.s2);
+
+        int equal = str_equal(s->data, t.s3);
+        int correct_length = s->length == str_length(t.s1) + str_length(t.s2);
+        int sufficient_capacity = s->length < s->capacity;
+
+        if (!equal || !correct_length || !sufficient_capacity)
+        {
+            return 0;
+        }
+
+        // Free the dstring_t instance
+        dstring_free(s);
+    }
+
+    return 1;
+}
+
+int dstring_reverse_success()
+{
+    printf("Testing dstring_reverse...\n");
+
+    // Create test data
+    StringTuple test_data[] = {
+        {"Hello", "olleH"},
+        {"1234", "4321"},
+        {"123456789", "987654321"},
+        {"", ""},
+        {" ", " "},
+        {"This is a pretty long text right here, right? ;)", "); ?thgir ,ereh thgir txet gnol ytterp a si sihT"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        dstring_t *s = dstring_init(test_data[i].s1);
+        if (!s) return 0;
+
+        dstring_reverse(s);
+
+        if (!str_equal(s->data, test_data[i].s2)) return 0;
+
+        dstring_free(s);
+    }
+
+    return 1;
+}
+
+int dstring_to_upper_success()
+{
+    printf("Testing dstring_to_upper...\n");
+    
+    // Define test data
+    StringTuple test_data[] = {
+        {"Hello", "HELLO"},
+        {"THIS IS ALREADY UPPER", "THIS IS ALREADY UPPER"},
+        {" ", " "},
+        {"&&/()$#*+!", "&&/()$#*+!"},
+        {"", ""},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    // Iterate and test
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        dstring_t *s = dstring_init(test_data[i].s1);
+        if (!s) return 0;
+
+        dstring_to_upper(s);
+
+        if (!str_equal(s->data, test_data[i].s2)) return 0;
+
+        dstring_free(s);
+    }
+    
+    return 1;
+}
+
+int dstring_trim_success()
+{
+    printf("Testing dstring_trim...\n");
+
+    // Create test data
     StringTuple test_data[] = {
         {"Hello", "Hello"},
         {" World", "World"},
@@ -384,15 +366,15 @@ int str_trim_success()
 
     size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
 
+    // Iterate and test
     for (size_t i = 0; i < num_test_data; i++)
     {
-        char *trimmed = str_trim(test_data[i].s1);
-        if (!str_equal(trimmed, test_data[i].s2))
-        {
-            free(trimmed);
-            return 0;
-        }
-        free(trimmed);
+        // Create a dstring_t
+        dstring_t *s = dstring_init(test_data[i].s1);
+        if (!s) return 0;
+
+        dstring_trim(s);
+        if (!str_equal(s->data, test_data[i].s2)) return 0;
     }
     
     return 1;
