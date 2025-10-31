@@ -1,5 +1,5 @@
 #include "string_utils.h"
-#include "strlib.h"
+#include "dtypes.h"
 #include <stdio.h>
 
 ///////////////////////////////////////
@@ -81,104 +81,6 @@ char *str_copy(const char *src, char *dest)
     return start;
 }
 
-
-//////////////////////////////////
-// Functions based on dstring_t //
-//////////////////////////////////
-dstring_t *dstring_init(const char *init_text)
-{
-    dstring_t *s = malloc(sizeof(dstring_t));
-    if (!s) return NULL;
-
-    if (init_text)
-    {
-        // Init text was given
-        s->length = str_length(init_text);
-        s->capacity = (s->length + 1 > STR_INIT_CAPACITY) ? s->length + 1 : STR_INIT_CAPACITY;
-        s->data = malloc(s->capacity);
-        
-        // Check if data was successfully initialized
-        if (!s->data)
-        {
-            free(s);
-            return NULL;
-        }
-
-        // Copy the init text to the dstrings data
-        str_copy(init_text, s->data);
-    }
-    else
-    {
-        // No init text was given -> init empty
-        s->length = 0;
-        s->capacity = STR_INIT_CAPACITY;
-        s->data = malloc(s->capacity);
-        if (!s->data)
-        {
-            free(s);
-            return NULL;
-        }
-        s->data[0] = '\0';
-    }
-
-    return s;
-}
-
-void dstring_free(dstring_t *s)
-{
-    // Check for NULL value
-    if (!s) return;
-
-    // Free the data
-    free(s->data);
-
-    // Avoid dangling pointers -> reset the values
-    s->data = NULL;
-    s->length = 0;
-    s->capacity = 0;
-
-    // Free the object itself
-    free(s);
-}
-
-void dstring_append(dstring_t *s, const char *suffix)
-{
-    if (!s || !suffix) return;
-
-    // Check the new required capacity
-    size_t l_add = str_length(suffix);
-    size_t l_new = s->length + l_add;
-
-    // Check if the data must be reallocated
-    if (s->capacity < (l_new + 1))
-    {
-        size_t new_capacity = s->capacity * 2;
-        while (new_capacity < l_new + 1)
-            new_capacity *= 2;
-
-        char *tmp = realloc(s->data, new_capacity);
-        if (!tmp)
-            return;
-
-        s->data = tmp;
-        s->capacity = new_capacity;
-    }
-
-    // Write the old data
-    for (size_t i = 0; i < l_add; i++)
-    {
-        s->data[s->length + i] = suffix[i];
-    }
-
-    // Terminate the local concat string
-    s->length = l_new;
-    s->data[s->length] = '\0';
-}
-
-
-////////////////
-// Deprecated //
-////////////////
 const char *str_find(const char *haystack, const char *needle)
 {
     // Find the needle in the haystack hehe ;)
@@ -231,68 +133,6 @@ const char *str_find(const char *haystack, const char *needle)
     }
 
     return NULL;
-}
-
-char *str_reverse(char *str)
-{
-    // Protect against NULL pointer
-    if (str == NULL)
-    {
-        return NULL;
-    }
-
-    size_t len = str_length(str);
-    char *rev = malloc(len + 1); // +1 due to '\0' at the end
-
-    // Secure against memory errors
-    if (!rev)
-    {
-        return NULL;
-    }
-
-    // Assign the chars in switched order
-    for (int i = 0; i < len; i++)
-    {
-        rev[i] = str[len - 1 - i];
-    }
-    rev[len] = '\0';
-
-    return rev;
-}
-
-char *str_to_upper(char *s)
-{
-    // Catch the case of NULL pointer
-    if (s == NULL)
-    {
-        return NULL;
-    }
-
-    // Allocate memory on the heap for the new string (avoids read-only problems with string literals)
-    char *s_upper = malloc(str_length(s) + 1);  // + 1 due to '\0'
-
-    // Save the init pointer to return later
-    char *res_p = s_upper;
-
-    while (*s != '\0')
-    {
-        // Check if the char lies in the uppercase part of ASCII
-        if (*s >= 'a' && *s <= 'z')
-        {
-            // Set the uppercase value in the ASCII table
-            *s_upper = *s - ('a' - 'A');
-        }
-        else
-        {
-            // Char is already upper case
-            *s_upper = *s;
-        }
-
-        s++;
-        s_upper++;
-    }
-
-    return res_p;
 }
 
 size_t str_count(const char *s, const char *substr)
@@ -427,51 +267,159 @@ char **str_split(const char *s, char delimiter, size_t *count)
     return tokens;
 }
 
-char *str_trim(const char *s)
+
+//////////////////////////////////
+// Functions based on dstring_t //
+//////////////////////////////////
+dstring_t *dstring_init(const char *init_text)
+{
+    dstring_t *s = malloc(sizeof(dstring_t));
+    if (!s) return NULL;
+
+    if (init_text)
+    {
+        // Init text was given
+        s->length = str_length(init_text);
+        s->capacity = (s->length + 1 > STR_INIT_CAPACITY) ? s->length + 1 : STR_INIT_CAPACITY;
+        s->data = malloc(s->capacity);
+        
+        // Check if data was successfully initialized
+        if (!s->data)
+        {
+            free(s);
+            return NULL;
+        }
+
+        // Copy the init text to the dstrings data
+        str_copy(init_text, s->data);
+    }
+    else
+    {
+        // No init text was given -> init empty
+        s->length = 0;
+        s->capacity = STR_INIT_CAPACITY;
+        s->data = malloc(s->capacity);
+        if (!s->data)
+        {
+            free(s);
+            return NULL;
+        }
+        s->data[0] = '\0';
+    }
+
+    return s;
+}
+
+void dstring_free(dstring_t *s)
+{
+    // Check for NULL value
+    if (!s) return;
+
+    // Free the data
+    free(s->data);
+
+    // Avoid dangling pointers -> reset the values
+    s->data = NULL;
+    s->length = 0;
+    s->capacity = 0;
+
+    // Free the object itself
+    free(s);
+}
+
+void dstring_append(dstring_t *s, const char *suffix)
+{
+    if (!s || !suffix) return;
+
+    // Check the new required capacity
+    size_t l_add = str_length(suffix);
+    size_t l_new = s->length + l_add;
+
+    // Check if the data must be reallocated
+    if (s->capacity < (l_new + 1))
+    {
+        size_t new_capacity = s->capacity * 2;
+        while (new_capacity < l_new + 1)
+            new_capacity *= 2;
+
+        char *tmp = realloc(s->data, new_capacity);
+        if (!tmp)
+            return;
+
+        s->data = tmp;
+        s->capacity = new_capacity;
+    }
+
+    // Write the old data
+    for (size_t i = 0; i < l_add; i++)
+    {
+        s->data[s->length + i] = suffix[i];
+    }
+
+    // Terminate the local concat string
+    s->length = l_new;
+    s->data[s->length] = '\0';
+}
+
+void dstring_reverse(dstring_t *str)
+{
+    // Check if the data char * is NULL
+    if (!str->data) return;
+
+    for (size_t i = 0; i < str->length / 2; i++)
+    {
+        // Define the lower and upper idx to swap values
+        size_t lower = i;
+        size_t upper = str->length - i - 1;
+
+        // Swap
+        char tmp = str->data[lower];
+        str->data[lower] = str->data[upper];
+        str->data[upper] = tmp;
+    }
+}
+
+void dstring_to_upper(dstring_t *s)
+{
+    // Check for NULL
+    if (!s->data) return;
+
+    // Iterate and modify data
+    for (size_t i = 0; i < s->length; i++)
+    {
+        if (s->data[i] >= 'a' && s->data[i] <= 'z')
+        {
+            // Is lowercase in the original data
+            s->data[i] = s->data[i] - ('a' - 'A');
+        }
+    }
+}
+
+
+void dstring_trim(dstring_t *s)
 {
     // Null pointer check
-    if (!s)
-        return NULL;
+    if (!s) return;
 
-    // Sace the indices from and to which the trimmed string spans
-    int num_leading_ws = 0;
-    int num_trailing_ws = 0;
-
-    // Determine the number of leading whitespaces
-    const char *tmp = s;
-    while (*tmp == ' ')
+    // Trim trailing whitespaces
+    size_t end_idx = s->length - 1;
+    while (s->data[end_idx] == ' ')
     {
-        num_leading_ws++;
-        tmp++;
+        end_idx--;
     }
 
-    // Determine the number of trailing whitespaces
-    tmp = s + str_length(s) - 1;
-    while (*tmp == ' ')
+    // Set the terminate char and the new length
+    s->data[end_idx + 1] = '\0';
+    s->length = end_idx + 1;
+
+    // Trim leading whitespaces
+    size_t start_idx = 0;
+    while (s->data[start_idx] == ' ')
     {
-        num_trailing_ws++;
-        tmp--;
+        start_idx++;
     }
 
-    // Create the new string
-    int new_len = str_length(s) - num_leading_ws - num_trailing_ws;
-
-    // Catch case of negative new len
-    if (new_len < 0)
-    {
-        new_len = 0;
-    }
-
-    char *trimmed = malloc((new_len + 1) * sizeof(char));
-    if (!trimmed)
-        return NULL;
-
-    // Fill the trimmed string
-    for (size_t i = 0; i < new_len; i++)
-    {
-        trimmed[i] = s[num_leading_ws + i];
-    }
-    trimmed[new_len] = '\0';
-
-    return trimmed;
+    // Set the new data and length
+    s->data += start_idx;
+    s->length = s->length - start_idx;
 }

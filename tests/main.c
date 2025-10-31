@@ -25,33 +25,9 @@ int main()
         return 1;
     }
 
-    /////////////////////////////////
-    // Testing dstring_t functions //
-    /////////////////////////////////
-    if (!dstring_append_success())
-    {
-        printf("Failed: dstring_append\n");
-        return 1;
-    }
-
-    ////////////////
-    // Deprecated //
-    ////////////////
     if (!str_find_success())
     {
         printf("Failed: str_find...\n");
-        return 1;
-    }
-
-    if (!str_reverse_success())
-    {
-        printf("Failed: str_reverse...\n");
-        return 1;
-    }
-
-    if (!str_to_upper_success())
-    {
-        printf("Failed: str_to_upper...\n");
         return 1;
     }
 
@@ -67,7 +43,29 @@ int main()
         return 1;
     }
 
-    if (!str_trim_success())
+
+    /////////////////////////////////
+    // Testing dstring_t functions //
+    /////////////////////////////////
+    if (!dstring_append_success())
+    {
+        printf("Failed: dstring_append\n");
+        return 1;
+    }
+
+    if (!dstring_reverse_success())
+    {
+        printf("Failed: dstring_reverse...\n");
+        return 1;
+    }
+
+    if (!dstring_to_upper_success())
+    {
+        printf("Failed: dstring_to_upper...\n");
+        return 1;
+    }
+
+    if (!(dstring_trim_success()))
     {
         printf("Failed: str_trim...\n");
         return 1;
