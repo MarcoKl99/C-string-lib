@@ -11,7 +11,7 @@
 ////////////////////////////////////////
 // Testing utility functions (char *) //
 ////////////////////////////////////////
-void test_str_length()
+int test_str_length()
 {
     printf(BLUE "\nTesting str_length...\n" RESET);
 
@@ -35,14 +35,15 @@ void test_str_length()
         if (len != desired_len)
         {
             printf(RED "\t🔴 Failed: %d != %d for string %s\n" RESET, len, desired_len, pairs[i].key);
-            return;
+            return 0;
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_str_copy()
+int test_str_copy()
 {
     printf(BLUE "\nTesting str_copy...\n" RESET);
 
@@ -64,15 +65,16 @@ void test_str_copy()
         if (!str_equal(src, dest))
         {
             printf(RED "\t🔴 Failed: %s != %s\n" RESET, src, dest);
-            return;
+            return 0;
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
 
-void test_str_equal()
+int test_str_equal()
 {
     printf(BLUE "\nTesting str_equal...\n" RESET);
 
@@ -106,15 +108,16 @@ void test_str_equal()
             if (equal != desired)
             {
                 printf(RED "\t🔴 Failed: %s =?= %s should be %d but is %d\n", strings[i], strings[k], desired, equal);
-                return;
+                return 0;
             }
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_str_find()
+int test_str_find()
 {
     printf(BLUE "\nTesting str_find...\n" RESET);
 
@@ -136,7 +139,7 @@ void test_str_find()
         {
             // Should have found that - return false
             printf(RED "\t🔴 Failed: Did not find %s in %s\n", test_data_match[i].s2, test_data_match[i].s1);
-            return;
+            return 0;
         }
     }
 
@@ -156,14 +159,15 @@ void test_str_find()
         {
             // Was found but should not be there - return false
             printf(RED "\t🔴 Failed: Found %s in %s\n", test_data_mismatch[i].s2, test_data_mismatch[i].s1);
-            return;
+            return 0;
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_str_count()
+int test_str_count()
 {
     printf(BLUE "\nTesting str_count...\n" RESET);
 
@@ -187,14 +191,15 @@ void test_str_count()
         if (count != test_data[i].count)
         {
             printf(RED "\t🔴 Failed: %zu != %zu for %s in %s\n", count, test_data[i].count, test_data[i].substr, test_data[i].s);
-            return;
+            return 0;
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_str_split()
+int test_str_split()
 {
     printf(BLUE "\nTesting str_split...\n" RESET);
 
@@ -236,14 +241,14 @@ void test_str_split()
         td = test_data[i];
         char **split = str_split(td.s, td.delimiter, &count);
 
-        if (count != td.num_tokens) return;
+        if (count != td.num_tokens) return 0;
 
         for (size_t k = 0; k < count; k++)
         {
             if (!str_equal(split[k], td.tokens[k]))
             {
                 printf(RED "\t🔴 Failed: Token %s != %s\n", split[k], td.tokens[k]);
-                return;
+                return 0;
             }
         }
 
@@ -252,13 +257,14 @@ void test_str_split()
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
 
 /////////////////////////////////
 // Testing dstring_t functions //
 /////////////////////////////////
-void test_dstring_append()
+int test_dstring_append()
 {
     printf(BLUE "\nTesting dstring_append...\n" RESET);
 
@@ -291,7 +297,7 @@ void test_dstring_append()
         if (!equal || !correct_length || !sufficient_capacity)
         {
             printf(RED "\t🔴 Failed: equal (%d), correct_length (%d), sufficient_capacity (%d)\n", equal, correct_length, sufficient_capacity);
-            return;
+            return 0;
         }
 
         // Free the dstring_t instance
@@ -299,9 +305,10 @@ void test_dstring_append()
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_dstring_reverse()
+int test_dstring_reverse()
 {
     printf(BLUE "\nTesting dstring_reverse...\n" RESET);
 
@@ -320,23 +327,24 @@ void test_dstring_reverse()
     for (size_t i = 0; i < num_test_data; i++)
     {
         dstring_t *s = dstring_init(test_data[i].s1);
-        if (!s) return;
+        if (!s) return 0;
 
         dstring_reverse(s);
 
         if (!str_equal(s->data, test_data[i].s2))
         {
             printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
-            return;
+            return 0;
         }
 
         dstring_free(s);
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_dstring_to_upper()
+int test_dstring_to_upper()
 {
     printf(BLUE "\nTesting dstring_to_upper...\n" RESET);
 
@@ -355,23 +363,24 @@ void test_dstring_to_upper()
     for (size_t i = 0; i < num_test_data; i++)
     {
         dstring_t *s = dstring_init(test_data[i].s1);
-        if (!s) return;
+        if (!s) return 0;
 
         dstring_to_upper(s);
 
         if (!str_equal(s->data, test_data[i].s2))
         {
             printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
-            return;
+            return 0;
         }
 
         dstring_free(s);
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_dstring_trim()
+int test_dstring_trim()
 {
     printf(BLUE "\nTesting dstring_trim...\n" RESET);
 
@@ -394,20 +403,21 @@ void test_dstring_trim()
     {
         // Create a dstring_t
         dstring_t *s = dstring_init(test_data[i].s1);
-        if (!s) return;
+        if (!s) return 0;
 
         dstring_trim(s);
         if (!str_equal(s->data, test_data[i].s2))
         {
             printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
-            return;
+            return 0;
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
 
-void test_dstring_insert()
+int test_dstring_insert()
 {
     printf(BLUE "\nTesting dstring_insert...\n" RESET);
 
@@ -437,9 +447,10 @@ void test_dstring_insert()
         if (!str_equal(datapoint.result, s->data))
         {
             printf(RED "\t🔴 Failed: %s != %s\n", s->data, datapoint.result);
-            return;
+            return 0;
         }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
 }
