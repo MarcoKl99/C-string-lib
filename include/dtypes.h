@@ -49,4 +49,12 @@ typedef struct
     char *s3;
 } StringTriple;
 
+typedef struct
+{
+    char *original;
+    char *s_insert;
+    size_t insert_after_idx;
+    char *result;
+} StrInsertTestData;
+
 #endif

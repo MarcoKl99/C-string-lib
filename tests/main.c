@@ -7,71 +7,23 @@ int main()
     ////////////////////////////////////////
     // Testing utility functions (char *) //
     ////////////////////////////////////////
-    if (!str_length_success())
-    {
-        printf("Failed: str_length\n");
-        return 1;
-    }
-
-    if (!str_equal_success())
-    {
-        printf("Failed: str_equal\n");
-        return 1;
-    }
-
-    if (!str_copy_success())
-    {
-        printf("Failed: str_copy\n");
-        return 1;
-    }
-
-    if (!str_find_success())
-    {
-        printf("Failed: str_find...\n");
-        return 1;
-    }
-
-    if (!str_count_success())
-    {
-        printf("Failed: str_count...\n");
-        return 1;
-    }
-
-    if (!str_split_success())
-    {
-        printf("Failed: str_split...\n");
-        return 1;
-    }
-
+    test_str_length();
+    test_str_equal();
+    test_str_copy();
+    test_str_find();
+    test_str_count();
+    test_str_split();
 
     /////////////////////////////////
     // Testing dstring_t functions //
     /////////////////////////////////
-    if (!dstring_append_success())
-    {
-        printf("Failed: dstring_append\n");
-        return 1;
-    }
+    test_dstring_append();
+    test_dstring_reverse();
+    test_dstring_to_upper();
+    test_dstring_trim();
+    test_dstring_insert();
 
-    if (!dstring_reverse_success())
-    {
-        printf("Failed: dstring_reverse...\n");
-        return 1;
-    }
-
-    if (!dstring_to_upper_success())
-    {
-        printf("Failed: dstring_to_upper...\n");
-        return 1;
-    }
-
-    if (!(dstring_trim_success()))
-    {
-        printf("Failed: str_trim...\n");
-        return 1;
-    }
-
-    printf("Success!\n");
+    printf("\nSuccess!\n");
 
     return 0;
 }

@@ -423,3 +423,43 @@ void dstring_trim(dstring_t *s)
     s->data += start_idx;
     s->length = s->length - start_idx;
 }
+
+void dstring_insert(dstring_t *s, char *s_insert, size_t insert_after_idx)
+{
+    // Check if the argument insert_after_idx makes sense
+    if (insert_after_idx > s->length - 1) return;
+
+    // Null pointer check
+    if (!s) return;
+    if (!s_insert) return;
+
+    // Check, if new capacity must be allocated
+    size_t l_insert = str_length(s_insert);
+    size_t required_capacity = s->length + l_insert;
+    if (s->capacity < required_capacity * 2)
+    {
+        // Reallocate new capacity
+        while (s->capacity < required_capacity * 2)
+        {
+            s->capacity *= 2;
+        }
+
+        // Reallocate
+        char *tmp = realloc(s->data, s->capacity);
+        if (!tmp) return;
+
+        s->data = tmp;
+    }
+
+    // Push the char back by the length of the given s_insert
+    for (size_t i = s->length; i > insert_after_idx; i--)
+    {
+        s->data[i + l_insert] = s->data[i];
+    }
+
+    // We just made some space for s_insert to fit at the given index
+    for (size_t i = 0; i < l_insert; i++)
+    {
+        s->data[insert_after_idx + 1 + i] = s_insert[i];
+    }
+}

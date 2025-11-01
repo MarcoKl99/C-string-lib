@@ -5,14 +5,15 @@
 
 // Types
 #include "dtypes.h"
+#include "cmd_colors.h"
 
 
 ////////////////////////////////////////
 // Testing utility functions (char *) //
 ////////////////////////////////////////
-int str_length_success()
+void test_str_length()
 {
-    printf("Testing str_length...\n");
+    printf(BLUE "\nTesting str_length...\n" RESET);
 
     // Create a list of test pairs
     Pair pairs[] = {
@@ -33,16 +34,17 @@ int str_length_success()
 
         if (len != desired_len)
         {
-            return 0;
+            printf(RED "\t🔴 Failed: %d != %d for string %s\n" RESET, len, desired_len, pairs[i].key);
+            return;
         }
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int str_copy_success()
+void test_str_copy()
 {
-    printf("Testing str_copy...\n");
+    printf(BLUE "\nTesting str_copy...\n" RESET);
 
     // Define test strings
     char *test_strs[] = {
@@ -61,17 +63,18 @@ int str_copy_success()
         str_copy(src, dest);
         if (!str_equal(src, dest))
         {
-            return 0;
+            printf(RED "\t🔴 Failed: %s != %s\n" RESET, src, dest);
+            return;
         }
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
 
-int str_equal_success()
+void test_str_equal()
 {
-    printf("Testing str_equal...\n");
+    printf(BLUE "\nTesting str_equal...\n" RESET);
 
     // Define sample strings to test on
     char *strings[] = {
@@ -102,17 +105,18 @@ int str_equal_success()
 
             if (equal != desired)
             {
-                return 0;
+                printf(RED "\t🔴 Failed: %s =?= %s should be %d but is %d\n", strings[i], strings[k], desired, equal);
+                return;
             }
         }
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int str_find_success()
+void test_str_find()
 {
-    printf("Testing str_find...\n");
+    printf(BLUE "\nTesting str_find...\n" RESET);
 
     // Define test data for matches
     const StringTuple test_data_match[] = {
@@ -131,7 +135,8 @@ int str_find_success()
         if (found == NULL)
         {
             // Should have found that - return false
-            return 0;
+            printf(RED "\t🔴 Failed: Did not find %s in %s\n", test_data_match[i].s2, test_data_match[i].s1);
+            return;
         }
     }
 
@@ -150,16 +155,17 @@ int str_find_success()
         if (found != NULL)
         {
             // Was found but should not be there - return false
-            return 0;
+            printf(RED "\t🔴 Failed: Found %s in %s\n", test_data_mismatch[i].s2, test_data_mismatch[i].s1);
+            return;
         }
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int str_count_success()
+void test_str_count()
 {
-    printf("Testing str_count...\n");
+    printf(BLUE "\nTesting str_count...\n" RESET);
 
     // Define the test data
     StrCountTestData test_data[] = {
@@ -178,15 +184,19 @@ int str_count_success()
     for (size_t i = 0; i < num_test_data; i++)
     {
         count = str_count(test_data[i].s, test_data[i].substr);
-        if (count != test_data[i].count) return 0;
+        if (count != test_data[i].count)
+        {
+            printf(RED "\t🔴 Failed: %zu != %zu for %s in %s\n", count, test_data[i].count, test_data[i].substr, test_data[i].s);
+            return;
+        }
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int str_split_success()
+void test_str_split()
 {
-    printf("Testing str_split...\n");
+    printf(BLUE "\nTesting str_split...\n" RESET);
 
     // Init the count variable
     size_t count;
@@ -226,27 +236,31 @@ int str_split_success()
         td = test_data[i];
         char **split = str_split(td.s, td.delimiter, &count);
 
-        if (count != td.num_tokens) return 0;
+        if (count != td.num_tokens) return;
 
         for (size_t k = 0; k < count; k++)
         {
-            if (!str_equal(split[k], td.tokens[k])) return 0;
+            if (!str_equal(split[k], td.tokens[k]))
+            {
+                printf(RED "\t🔴 Failed: Token %s != %s\n", split[k], td.tokens[k]);
+                return;
+            }
         }
 
         for (size_t k = 0; k < count; k++) free(split[k]);
         if (split) free(split);
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
 
 /////////////////////////////////
 // Testing dstring_t functions //
 /////////////////////////////////
-int dstring_append_success()
+void test_dstring_append()
 {
-    printf("Testing dstring_append...\n");
+    printf(BLUE "\nTesting dstring_append...\n" RESET);
 
     // Define test data
     StringTriple test_data[] = {
@@ -276,19 +290,20 @@ int dstring_append_success()
 
         if (!equal || !correct_length || !sufficient_capacity)
         {
-            return 0;
+            printf(RED "\t🔴 Failed: equal (%d), correct_length (%d), sufficient_capacity (%d)\n", equal, correct_length, sufficient_capacity);
+            return;
         }
 
         // Free the dstring_t instance
         dstring_free(s);
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int dstring_reverse_success()
+void test_dstring_reverse()
 {
-    printf("Testing dstring_reverse...\n");
+    printf(BLUE "\nTesting dstring_reverse...\n" RESET);
 
     // Create test data
     StringTuple test_data[] = {
@@ -305,22 +320,26 @@ int dstring_reverse_success()
     for (size_t i = 0; i < num_test_data; i++)
     {
         dstring_t *s = dstring_init(test_data[i].s1);
-        if (!s) return 0;
+        if (!s) return;
 
         dstring_reverse(s);
 
-        if (!str_equal(s->data, test_data[i].s2)) return 0;
+        if (!str_equal(s->data, test_data[i].s2))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
+            return;
+        }
 
         dstring_free(s);
     }
 
-    return 1;
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int dstring_to_upper_success()
+void test_dstring_to_upper()
 {
-    printf("Testing dstring_to_upper...\n");
-    
+    printf(BLUE "\nTesting dstring_to_upper...\n" RESET);
+
     // Define test data
     StringTuple test_data[] = {
         {"Hello", "HELLO"},
@@ -336,21 +355,25 @@ int dstring_to_upper_success()
     for (size_t i = 0; i < num_test_data; i++)
     {
         dstring_t *s = dstring_init(test_data[i].s1);
-        if (!s) return 0;
+        if (!s) return;
 
         dstring_to_upper(s);
 
-        if (!str_equal(s->data, test_data[i].s2)) return 0;
+        if (!str_equal(s->data, test_data[i].s2))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
+            return;
+        }
 
         dstring_free(s);
     }
-    
-    return 1;
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
 
-int dstring_trim_success()
+void test_dstring_trim()
 {
-    printf("Testing dstring_trim...\n");
+    printf(BLUE "\nTesting dstring_trim...\n" RESET);
 
     // Create test data
     StringTuple test_data[] = {
@@ -371,11 +394,52 @@ int dstring_trim_success()
     {
         // Create a dstring_t
         dstring_t *s = dstring_init(test_data[i].s1);
-        if (!s) return 0;
+        if (!s) return;
 
         dstring_trim(s);
-        if (!str_equal(s->data, test_data[i].s2)) return 0;
+        if (!str_equal(s->data, test_data[i].s2))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
+            return;
+        }
     }
-    
-    return 1;
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+}
+
+void test_dstring_insert()
+{
+    printf(BLUE "\nTesting dstring_insert...\n" RESET);
+
+    // Define test data
+    StrInsertTestData test_data[] = {
+        {"Hello World", " beautiful", 4, "Hello beautiful World"},
+        {"This is a test!", " cool", 8, "This is a cool test!"},
+        {"Inserting", " at the end is still inserting ;)", 8, "Inserting at the end is still inserting ;)"},
+        {"Just some example", "random ", 9, "Just some random example"},
+        {"Here is one", " another", 6, "Here is another one"},
+        {"12346789", "5", 3, "123456789"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StrInsertTestData datapoint = test_data[i];
+
+        // Create the dstring_t instance
+        dstring_t *s = dstring_init(datapoint.original);
+
+        // Perform the insertion
+        dstring_insert(s, datapoint.s_insert, datapoint.insert_after_idx);
+
+        // Check the result
+        if (!str_equal(datapoint.result, s->data))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, datapoint.result);
+            return;
+        }
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
 }
