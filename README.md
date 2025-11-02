@@ -95,6 +95,7 @@ The below gives an overview of the functions implemented in the project.
 - `dstring_reverse`: Reverse a *dstring_t*
 - `dstring_to_upper`: Convert all chars in the given *dstring_t* content to uppercase
 - `dstring_trim`: Remove all leading and trailing whitespaces from the given string
+- `dstring_replace`: Replace a given substring in the string with a new substring
 
 ## How to build 🏗️
 
