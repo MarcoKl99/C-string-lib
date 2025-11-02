@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include "string_utils.h"
 #include "test_utils.h"
+#include "sexyness.h"
 
 int main()
 {
+    // Print the initial banner for that WOW effect ;)
+    print_banner();
+
     ////////////////////////////////////////
     // Testing utility functions (char *) //
     ////////////////////////////////////////
@@ -22,8 +26,6 @@ int main()
     test_dstring_to_upper();
     test_dstring_trim();
     test_dstring_insert();
-
-    printf("\nSuccess!\n");
 
     return 0;
 }

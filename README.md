@@ -1,12 +1,14 @@
 # C-string-lib - Implementation of utilities to work with Strings in C! 🚀
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Welcome to this small project on a few implementations of utilites regarding Strings in C!
 
 This project implements simple helper functions on char * like `str_equal` or `str_length`, I extended these functions to many cases, tested it and was happy with the outcome... when suddenly... 😮
 
 I was driving home from work 🚎, thinking about the next utility that I could implement... when a capable LLM decided to teach me about the concept of *memory ownership*!
 
-When performing operations on char * instances, suddenly a wild memory leak occured! To neutralize the threat, our heros (me and ChatGPT) started to implement a struct, wrapping the string's content (as a char *) into their own data structure and therfore passing the responsibility of memory management from the caller to the invoked function. After properly free-ing the memory and NULL-ing remaining pointers to that memory, the villagers could finally sleep well again... as far as this project goes, I know there are still fragments of the code that allow for that, but the basic concept is implemented in the usage of *dstruct_t*, don't be too strict plz 😉.
+When performing operations on char * instances, suddenly a wild memory leak occured! To neutralize the threat, our heros (me and ChatGPT) started to implement a struct, wrapping the string's content (as a `char *`) into their own data structure and therfore passing the responsibility of memory management from the caller to the cellee. After properly free-ing the memory and NULL-ing remaining pointers to that memory, the villagers could finally sleep well again... as far as this project goes, I know there are still fragments of the code that allow for that, but the basic concept is implemented in the usage of *dstruct_t*, don't be too strict plz 😉.
 
 In summary, this project provides a struct *dstring_t* that stores a pointer to a data array as well as the length of the string and the current capacity.
 
@@ -105,3 +107,7 @@ make clean
 ```
 
 Have fun and happy coding! 🥳🎉
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
