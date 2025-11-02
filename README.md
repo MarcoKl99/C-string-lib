@@ -45,23 +45,25 @@ The project is structured in the following way.
 ```text
 C-string-lib/
 ├── include/
-│ ├── dstring_tests.h   // Test functions for the dstring_t struct
-│ ├── dstring_utils.h   // Actual util functions for the dstring_t struct (core)
-│ ├── dtypes.h          // Definitions of data types
-│ ├── report.h          // Reporting functions for test results
-│ ├── sexyness.h        // Well... look inside 😉
-│ ├── string_tests.h    // Test functions for basic (char *) operations
-│ └── string_utils.h    // Actual util functions for (cahr *)
+│ ├── dstring_template.h    // Template functions to fill values into a given text using placeholders
+│ ├── dstring_tests.h       // Test functions for the dstring_t struct
+│ ├── dstring_utils.h       // Actual util functions for the dstring_t struct (core)
+│ ├── dtypes.h              // Definitions of data types
+│ ├── report.h              // Reporting functions for test results
+│ ├── sexyness.h            // Well... look inside 😉
+│ ├── string_tests.h        // Test functions for basic (char *) operations
+│ └── string_utils.h        // Actual util functions for (cahr *)
 ├── src/
+│ ├── dstring_template.c
 │ ├── dstring_utils.c
 │ └── string_utils.c
 ├── tests/
 │ ├── dstring_tests.c
-│ ├── main.c            // Invocations of the tests
+│ ├── main.c                // Invocations of the tests
 │ ├── report.c
 │ ├── sexyness.c
 │ └── string_tests.c
-└── Makefile            // Bob the builder right here 👷
+└── Makefile                // Bob the builder right here 👷
 ```
 
 ## Functionalities ⚙️
@@ -91,6 +93,31 @@ To really dive into the magic of strings in C, the below gives an overview of th
 - `dstring_trim`: Remove all leading and trailing whitespaces from the given string
 - `dstring_replace`: Replace a given substring in the string with a new substring
 - `dstring_insert`: Insert a given substring into the dstring's data after a given index
+
+### Template-Parser
+
+The functions mentioned above are used in a template parser, that enables the user to fill in certain vailes into a defined template.
+
+**Example:**
+
+Given the template
+
+```text
+Hello {{name}}, I am contacting you regarding {{topic}}.
+```
+
+we can apply the `dstring_template_apply` function using the map
+
+```text
+name = "Bob"
+topic = "our C project"
+```
+
+to obtain the final text
+
+```text
+Hello Bob, I am contacting you regarding our C project.
+```
 
 ## How to build 🏗️
 
