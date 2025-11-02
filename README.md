@@ -78,36 +78,36 @@ C-string-lib/
 
 ## Functionalities ⚙️
 
-You might say "Wow Marco, this project contains so many cool things" but wait! There's more!
+You might say "Wow Marco, this project contains so many cool things 🤩" but wait! There's more!
 
 To really dive into the magic of strings in C, the below gives an overview of the functions implemented in the project.
 
 ### Utility Functions (char *)
 
 - `str_length`: Get the length of a string
-- `str_equal`: Compare two strings for equality
-- `str_copy`: Copy one string to another
-- `str_find`: Find a substring (the needle) in a string (the haystack) and return a pointer to the first char of the occurrence if present
-- `str_count`: Count the number of occurrences of a substring in a given string
-- `str_split`: Split a string at a given substring and return a list of the resulting pieces (the famous pointer to pointer!)
+- `str_equal`:  Compare two strings for equality
+- `str_copy`:   Copy one string to another
+- `str_find`:   Find a substring (the needle) in a string (the haystack) and return a pointer to the first char of the occurrence if present
+- `str_count`:  Count the number of occurrences of a substring in a given string
+- `str_split`:  Split a string at a given substring and return a list of the resulting pieces (the famous pointer to pointer!)
 
 ### New dstring_t Functions
 
-- `dstring_init`: Create a *dstring_t* instance based on a given char * string that it should contain
-- `dstring_from_file`: Create a *dstring_t* instance from a file, given a file path
-- `dstring_free`: Properly free a given *dstring_t* and the containing string (No dangling pointers allowed in this house!)
-- `dstring_set`: Set the value of the string contained in the *dstring_t* instance to a given (char *)
-- `dstring_append`: Append a string to the given *dstring_t* instance, accounting for length, capacity, and a potential reallocation
-- `dstring_reverse`: Reverse a *dstring_t*
-- `dstring_to_upper`: Convert all chars in the given *dstring_t* content to uppercase
-- `dstring_to_lower`: Convert all chars in the given *dstring_t* content to lowercase
-- `dstring_trim`: Remove all leading and trailing whitespaces from the given string
-- `dstring_replace`: Replace a given substring in the string with a new substring
-- `dstring_insert`: Insert a given substring into the dstring's data after a given index
+- `dstring_init`:       Create a *dstring_t* instance based on a given char * string that it should contain
+- `dstring_from_file`:  Create a *dstring_t* instance from a file, given a file path
+- `dstring_free`:       Properly free a given *dstring_t* and the containing string (No dangling pointers allowed in this house!)
+- `dstring_set`:        Set the value of the string contained in the *dstring_t* instance to a given (char *)
+- `dstring_append`:     Append a string to the given *dstring_t* instance, accounting for length, capacity, and a potential reallocation
+- `dstring_reverse`:    Reverse a *dstring_t*
+- `dstring_to_upper`:   Convert all chars in the given *dstring_t* content to uppercase
+- `dstring_to_lower`:   Convert all chars in the given *dstring_t* content to lowercase
+- `dstring_trim`:       Remove all leading and trailing whitespaces from the given string
+- `dstring_replace`:    Replace a given substring in the string with a new substring
+- `dstring_insert`:     Insert a given substring into the dstring's data after a given index
 
 ### Template-Parser
 
-The functions mentioned above are used in a template parser, that enables the user to fill in certain vailes into a defined template.
+The functions mentioned above are used in a template parser, that enables the user to fill in certain vailes into a defined template 📝.
 
 **Example:**
 
@@ -117,7 +117,7 @@ Given the template
 Hello {{name}}, I am contacting you regarding {{topic}}.
 ```
 
-we can apply the `template_apply` function using the map
+we can apply the `template_apply` function using the map 🗺️
 
 ```text
 name = "Bob"
@@ -140,11 +140,11 @@ KEY2=VALUE2
 ...
 ```
 
-This can e.g. be invoked together with the tempalte parser and the method `dstring_from_file`, to process larger files.
+This can e.g. be invoked together with the tempalte parser and the method `dstring_from_file`, to process larger files 🚀.
 
 ## How to build 🏗️
 
-To build the project, execute the following.
+To build the project using the `make` utility, execute the following.
 
 ```bash
 make
