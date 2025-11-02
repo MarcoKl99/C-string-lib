@@ -20,5 +20,6 @@ int test_dstring_reverse();
 int test_dstring_to_upper();
 int test_dstring_trim();
 int test_dstring_insert();
+int test_dstring_replace();
 
 #endif

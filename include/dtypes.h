@@ -51,6 +51,14 @@ typedef struct
 
 typedef struct
 {
+    char *s1;
+    char *s2;
+    char *s3;
+    char *s4;
+} StringQuad;
+
+typedef struct
+{
     char *original;
     char *s_insert;
     size_t insert_after_idx;

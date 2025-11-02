@@ -454,3 +454,44 @@ int test_dstring_insert()
     printf(GREEN "\t🟢 Passed!\n" RESET);
     return 1;
 }
+
+int test_dstring_replace()
+{
+    printf(BLUE "\nTesting dstring_insert...\n" RESET);
+
+    // Define test data
+    StringQuad test_data[] = {
+        {"hello", "ll", "l", "helo"},
+        {"This is a little bit longer string that we can test on!", "can", "can surely", "This is a little bit longer string that we can surely test on!"},
+        {"This is a little bit longer string that we can surely test on!", "can surely", "can", "This is a little bit longer string that we can test on!"},
+        {"", "", "", ""},
+        {"string", NULL, "abc", "string"},
+        {"string", "str", NULL, "string"},
+        {"This cuts a word!", " a word", "", "This cuts!"},
+        {"And another example here.", "example", "cool test-case", "And another cool test-case here."},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StringQuad td = test_data[i];
+
+        // Create the dstring_t instance
+        dstring_t *s = dstring_init(td.s1);
+        if (!s) return 0;
+
+        // Make the replacement
+        dstring_replace(s, td.s2, td.s3);
+
+        // Check
+        if (!str_equal(s->data, td.s4))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, td.s4);
+            return 0;
+        }
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
+}

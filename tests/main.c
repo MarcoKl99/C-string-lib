@@ -26,6 +26,7 @@ int main()
     test_dstring_to_upper();
     test_dstring_trim();
     test_dstring_insert();
+    test_dstring_replace();
 
     return 0;
 }

@@ -81,7 +81,7 @@ char *str_copy(const char *src, char *dest)
     return start;
 }
 
-const char *str_find(const char *haystack, const char *needle)
+char *str_find(char *haystack, char *needle)
 {
     // Find the needle in the haystack hehe ;)
 
@@ -93,8 +93,8 @@ const char *str_find(const char *haystack, const char *needle)
     }
 
     // Initialize current needle position, last started streak, state (is_streak)
-    const char *needle_current = needle;
-    const char *streak_start = NULL;
+    char *needle_current = needle;
+    char *streak_start = NULL;
     size_t is_streak = 0;
 
     // Iterate through the haystack and search for a match in the first character
@@ -462,4 +462,73 @@ void dstring_insert(dstring_t *s, char *s_insert, size_t insert_after_idx)
     {
         s->data[insert_after_idx + 1 + i] = s_insert[i];
     }
+}
+
+void dstring_replace(dstring_t *s, char *substr, char *replacement)
+{
+    // Check for NULLs
+    if (!s || !substr || !replacement ) return;
+
+    // Get the pointer to the first substr occurrence
+    if (!str_find(s->data, substr)) return;  // No occurrences found in the string
+
+    // Check if we need to reallocate
+    size_t len_substr = str_length(substr);
+    size_t len_replacement = str_length(replacement);
+    size_t new_len = s->length - len_substr + len_replacement;
+
+    if (s->capacity < new_len + 1)
+    {
+        // Calculate the new capacity
+        while (s->capacity < new_len * 2)
+        {
+            s->capacity *= 2;
+        }
+
+        // Reallocate
+        s->data = realloc(s->data, s->capacity);
+        if (!s->data) return;
+    }
+
+    // After reallocating -> determine the pointer to the start of the substr
+    char *substr_occurrence = str_find(s->data, substr);
+
+    // Make enough space for the replacement
+    int shift = len_replacement - len_substr;
+
+    // Cases: 1 shift > 0, 2 shift < 0, 3 shift == 0
+    if (shift > 0)
+    {
+        // Chars must be shifted to the right
+        char *p = &s->data[s->length];
+
+        while (p != substr_occurrence)
+        {
+            // Shift to the right
+            *(p + shift) = *p;
+            p--;
+        }
+    }
+    else if (shift < 0)
+    {
+        // Chars must be shifted to the left -> Start at the end of the found substr and move to the end
+        char *p = substr_occurrence + len_substr;
+
+        // Shift
+        size_t i = 0;
+        while (*(p + i - 1) != '\0')
+        {
+            *(p + i + shift) = *(p + i);
+            i++;
+        }
+    }
+
+    // Insert the replacement
+    for (size_t i = 0; i < len_replacement; i++)
+    {
+        *(substr_occurrence + i) = replacement[i];
+    }
+
+    // Set the new length
+    s->length = new_len;
 }
