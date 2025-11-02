@@ -1,2 +1,15 @@
-Hello {{name}}, this is an email to you!
-I am cantacting you regarding our project that we did using the programming language {{lang}}.
+From: {{SENDER_NAME}} <{{SENDER_EMAIL}}>
+To: {{RECEIVER_NAME}} <{{RECEIVER_EMAIL}}>
+Subject: Status Update on Project {{PROJECT_NAME}}
+
+Hi {{RECEIVER_NAME}},
+
+I hope you're doing well. I wanted to check in on the current status of our project {{PROJECT_NAME}}.
+Specifically, I’m interested in how far you’ve progressed with implementing the planned functions of the string library and whether there are any challenges where I could offer support.
+
+It would be great if you could provide a brief update so we can plan the next steps.
+
+Thanks in advance!
+
+Best regards,
+{{SENDER_NAME}}

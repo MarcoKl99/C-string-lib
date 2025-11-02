@@ -44,25 +44,35 @@ The project is structured in the following way.
 
 ```text
 C-string-lib/
+├── data/
+│ ├── env.example           // Example env definition for testing
+│ ├── result.example        // Example result of the template function for testing
+│ └── template.example      // Example template for testing
 ├── include/
-│ ├── dstring_template.h    // Template functions to fill values into a given text using placeholders
 │ ├── dstring_tests.h       // Test functions for the dstring_t struct
 │ ├── dstring_utils.h       // Actual util functions for the dstring_t struct (core)
 │ ├── dtypes.h              // Definitions of data types
+│ ├── env_parser_tests.h    // Test functions for the parser of the env file
+│ ├── env_parser.h          // Function definitions for the parser of env file
 │ ├── report.h              // Reporting functions for test results
 │ ├── sexyness.h            // Well... look inside 😉
 │ ├── string_tests.h        // Test functions for basic (char *) operations
-│ └── string_utils.h        // Actual util functions for (cahr *)
+│ ├── string_utils.h        // Actual util functions for (char *)
+│ ├── template_tests.h      // Test functions for the templating logic
+│ └── template.h            // Actual util functions for the tamplating logic
 ├── src/
-│ ├── dstring_template.c
 │ ├── dstring_utils.c
-│ └── string_utils.c
+│ ├── env_parser.c
+│ ├── string_utils.c
+│ └── template.c
 ├── tests/
 │ ├── dstring_tests.c
+│ ├── env_parser_tests.c
 │ ├── main.c                // Invocations of the tests
 │ ├── report.c
 │ ├── sexyness.c
-│ └── string_tests.c
+│ ├── string_tests.c
+│ └── tempalte_tests.c
 └── Makefile                // Bob the builder right here 👷
 ```
 
@@ -84,6 +94,7 @@ To really dive into the magic of strings in C, the below gives an overview of th
 ### New dstring_t Functions
 
 - `dstring_init`: Create a *dstring_t* instance based on a given char * string that it should contain
+- `dstring_from_file`: Create a *dstring_t* instance from a file, given a file path
 - `dstring_free`: Properly free a given *dstring_t* and the containing string (No dangling pointers allowed in this house!)
 - `dstring_set`: Set the value of the string contained in the *dstring_t* instance to a given (char *)
 - `dstring_append`: Append a string to the given *dstring_t* instance, accounting for length, capacity, and a potential reallocation
@@ -106,7 +117,7 @@ Given the template
 Hello {{name}}, I am contacting you regarding {{topic}}.
 ```
 
-we can apply the `dstring_template_apply` function using the map
+we can apply the `template_apply` function using the map
 
 ```text
 name = "Bob"
@@ -118,6 +129,18 @@ to obtain the final text
 ```text
 Hello Bob, I am contacting you regarding our C project.
 ```
+
+### Env-Parser
+
+To efficiently create a larger key-value map for the template parser, a parser for env files is implemented that parses the following structure.
+
+```text
+KEY1=VALUE1
+KEY2=VALUE2
+...
+```
+
+This can e.g. be invoked together with the tempalte parser and the method `dstring_from_file`, to process larger files.
 
 ## How to build 🏗️
 

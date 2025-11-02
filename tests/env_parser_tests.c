@@ -17,23 +17,46 @@ int test_env_parser()
         return 0;
     }
 
-    size_t env_count_should_be = 2;
+    // Set the ground truth to compare against
+    size_t env_count_should_be = 5;
+    char *keys_should_be[] = {
+        "SENDER_NAME",
+        "SENDER_EMAIL",
+        "RECEIVER_NAME",
+        "RECEIVER_EMAIL",
+        "PROJECT_NAME",
+    };
+    char *values_should_be[] = {
+        "Alice",
+        "alice@example.com",
+        "Bob",
+        "bob@example.com",
+        "C-String-Lib",
+    };
+
+    // Check the number of returned keys / values
     if (env->count != env_count_should_be)
     {
         printf(RED "\t🔴 Failed: env count = %zu (should be %zu)\n" RESET, env->count, env_count_should_be);
         return 0;
     }
 
-    if (!(str_equal(env->keys[0], "name") && str_equal(env->keys[1], "lang")))
+    // Iterate and check the contents
+    for (size_t i = 0; i < env->count; i++)
     {
-        printf(RED "\t🔴 Failed: %s != %s or %s != %s\n" RESET, env->keys[0], "name", env->keys[1], "lang");
-        return 0;
-    }
+        // Check the key
+        if (!str_equal(env->keys[i], keys_should_be[i]))
+        {
+            printf(RED "\t🔴 Failed: Key mismatch %s != %s\n" RESET, env->keys[i], keys_should_be[i]);
+            return 0;
+        }
 
-    if (!(str_equal(env->values[0], "Bob") && str_equal(env->values[1], "C")))
-    {
-        printf(RED "\t🔴 Failed: %s != %s or %s != %s\n" RESET, env->values[0], "Bob", env->values[1], "C");
-        return 0;
+        // Check the value
+        if (!str_equal(env->values[i], values_should_be[i]))
+        {
+            printf(RED "\t🔴 Failed: Value mismatch %s != %s\n" RESET, env->values[i], values_should_be[i]);
+            return 0;
+        }
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);

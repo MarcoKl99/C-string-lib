@@ -1,14 +1,9 @@
 #include <stdio.h>
 
-#include "string_utils.h"
 #include "string_tests.h"
 #include "dstring_tests.h"
+#include "template_tests.h"
 #include "env_parser_tests.h"
-
-// DEV
-#include "dstring_utils.h"
-#include "dstring_template.h"
-#include "env_parser.h"
 
 #include "sexyness.h"
 #include "report.h"
@@ -57,13 +52,14 @@ int main()
     /////////////////////////////////////////
     // Testing the dstring Template Parser //
     /////////////////////////////////////////
-    num_passed_template_parser += test_dstring_template();
+    num_passed_template_parser += test_template();
 
     //////////////////////////////
     // Testing the env_t Parser //
     //////////////////////////////
     num_passed_env_parser += test_env_parser();
 
+    // Print a Test-Report to the Screen
     print_report(
         num_str,
         num_passed_str,

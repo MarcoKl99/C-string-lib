@@ -1,10 +1,10 @@
-#include "dstring_template.h"
+#include "template.h"
 #include "string_utils.h"
 #include "dstring_utils.h"
 
 #include <stdio.h>
 
-void dstring_tempalte_single_replace(dstring_t *s, char *key, char *value)
+void tempalte_single_replace(dstring_t *s, char *key, char *value)
 {
     // Check NULL
     if (!s || !key || !value) return;
@@ -32,7 +32,7 @@ void dstring_tempalte_single_replace(dstring_t *s, char *key, char *value)
     }
 }
 
-void dstring_template_apply(dstring_t *s, char **keys, char **values, size_t num_params)
+void template_apply(dstring_t *s, char **keys, char **values, size_t num_params)
 {
     // Check for NULLs
     if (!s || !keys || !values) return;
@@ -40,6 +40,6 @@ void dstring_template_apply(dstring_t *s, char **keys, char **values, size_t num
     // Iterate and call the subroutine
     for (size_t i = 0; i < num_params; i++)
     {
-        dstring_tempalte_single_replace(s, keys[i], values[i]);
+        tempalte_single_replace(s, keys[i], values[i]);
     }
 }
