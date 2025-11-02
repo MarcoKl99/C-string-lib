@@ -1,32 +1,46 @@
 #include <stdio.h>
+
 #include "string_utils.h"
-#include "test_utils.h"
+#include "string_tests.h"
+#include "dstring_tests.h"
+
 #include "sexyness.h"
+#include "report.h"
+
 
 int main()
 {
     // Print the initial banner for that WOW effect ;)
-    print_banner();
+    amazing_intro();
+
+    // Track the number of passed tests
+    size_t num_str = 6;
+    size_t num_passed_str = 0;
+
+    size_t num_dstring = 6;
+    size_t num_passed_dstring = 0;
 
     ////////////////////////////////////////
     // Testing utility functions (char *) //
     ////////////////////////////////////////
-    test_str_length();
-    test_str_equal();
-    test_str_copy();
-    test_str_find();
-    test_str_count();
-    test_str_split();
+    num_passed_str += test_str_length();
+    num_passed_str += test_str_equal();
+    num_passed_str += test_str_copy();
+    num_passed_str += test_str_find();
+    num_passed_str += test_str_count();
+    num_passed_str += test_str_split();
 
     /////////////////////////////////
     // Testing dstring_t functions //
     /////////////////////////////////
-    test_dstring_append();
-    test_dstring_reverse();
-    test_dstring_to_upper();
-    test_dstring_trim();
-    test_dstring_insert();
-    test_dstring_replace();
+    num_passed_dstring += test_dstring_append();
+    num_passed_dstring += test_dstring_reverse();
+    num_passed_dstring += test_dstring_to_upper();
+    num_passed_dstring += test_dstring_trim();
+    num_passed_dstring += test_dstring_insert();
+    num_passed_dstring += test_dstring_replace();
+
+    print_report(num_str, num_passed_str, num_dstring, num_passed_dstring);
 
     return 0;
 }

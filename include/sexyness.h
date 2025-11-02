@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <unistd.h>
 
 // Some colors
 #define RESET   "\x1b[0m"
@@ -11,4 +10,4 @@
 #define CYAN    "\x1b[36m"
 #define BOLD    "\x1b[1m"
 
-void print_banner();
+void amazing_intro();

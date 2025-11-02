@@ -1,6 +1,8 @@
 #include "sexyness.h"
+#include <unistd.h>
 
-void print_banner() {
+
+void amazing_intro() {
     printf("\n");
     printf(CYAN "╔═══════════════════════════════════════════════════════════════╗\n");
     printf("║" RESET BOLD YELLOW "   💥 BAM! Welcome to the super cool String Project! 💥        " RESET CYAN "║\n");
