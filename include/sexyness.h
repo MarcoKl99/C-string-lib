@@ -10,4 +10,5 @@
 #define CYAN    "\x1b[36m"
 #define BOLD    "\x1b[1m"
 
-void amazing_intro();
+void amazing_test_intro();
+void amazing_cli_intro();

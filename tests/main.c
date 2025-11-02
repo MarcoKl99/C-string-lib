@@ -9,10 +9,10 @@
 #include "report.h"
 
 
-int main()
+int main(int argc, char *argv[])
 {
     // Print the initial banner for that WOW effect ;)
-    amazing_intro();
+    amazing_test_intro();
 
     // Track the number of passed tests
     size_t num_str = 6;

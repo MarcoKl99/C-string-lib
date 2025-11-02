@@ -81,4 +81,11 @@ typedef struct
     size_t count;
 } env_t;
 
+typedef struct
+{
+    char *template_path;
+    char *env_path;
+    char *output_path;  // Optional
+} cli_args_t;
+
 #endif

@@ -128,6 +128,7 @@ int test_str_find()
         {"Programming", "gram"},
         {"Any random string", ""},
         {"", ""},
+        {"From: {{SENDER_NAME}} <{{SENDER_EMAIL}}>", "{{SENDER_EMAIL}}\n"},
     };
 
     size_t num_matches = sizeof(test_data_match) / sizeof(test_data_match[0]);
@@ -135,7 +136,7 @@ int test_str_find()
     for (int i = 0; i < num_matches; i++)
     {
         const char *found = str_find(test_data_match[i].s1, test_data_match[i].s2);
-        if (found == NULL)
+        if (!found)
         {
             // Should have found that - return false
             printf(RED "\t🔴 Failed: Did not find %s in %s\n", test_data_match[i].s2, test_data_match[i].s1);
@@ -155,7 +156,7 @@ int test_str_find()
     for (int i = 0; i < num_mismatches; i++)
     {
         const char *found = str_find(test_data_mismatch[i].s1, test_data_mismatch[i].s2);
-        if (found != NULL)
+        if (found)
         {
             // Was found but should not be there - return false
             printf(RED "\t🔴 Failed: Found %s in %s\n", test_data_mismatch[i].s2, test_data_mismatch[i].s1);

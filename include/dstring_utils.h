@@ -9,6 +9,7 @@
 //////////////////////////////////
 dstring_t *dstring_init(const char *init_text);
 dstring_t *dstring_from_file(const char *filepath);
+int dstring_to_file(dstring_t *s, char *filepath);
 
 void dstring_free(dstring_t *s);
 void dstring_set(dstring_t *s, char *str);

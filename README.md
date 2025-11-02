@@ -44,10 +44,6 @@ The project is structured in the following way.
 
 ```text
 C-string-lib/
-├── data/
-│ ├── env.example           // Example env definition for testing
-│ ├── result.example        // Example result of the template function for testing
-│ └── template.example      // Example template for testing
 ├── include/
 │ ├── dstring_tests.h       // Test functions for the dstring_t struct
 │ ├── dstring_utils.h       // Actual util functions for the dstring_t struct (core)

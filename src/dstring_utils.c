@@ -92,6 +92,23 @@ dstring_t *dstring_from_file(const char *filepath)
     return s;
 }
 
+int dstring_to_file(dstring_t *s, char *filepath)
+{
+    // Check for NULLs
+    if (!s || !filepath) return -1;
+
+    FILE *f = fopen(filepath, "w");
+    if (!f) return -1;
+
+    size_t written = fwrite(s->data, 1, s->length, f);
+    fclose(f);
+
+    // Check if all data has been written to the file
+    if (written != s->length) return -1;
+
+    return 0;
+}
+
 void dstring_free(dstring_t *s)
 {
     // Check for NULL value

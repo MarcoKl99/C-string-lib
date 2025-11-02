@@ -122,8 +122,10 @@ char *str_find(char *haystack, char *needle)
             }
         }
 
+        // if (is_streak) printf("Haystack: %c - Needle current: %c\n", *haystack, *needle_current);
+
         // Check if the entire string has been found
-        if (*needle_current == '\0')
+        if (*(needle_current + 1) == '\0')
         {
             // Terminate
             return streak_start;
