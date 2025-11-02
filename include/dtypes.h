@@ -65,4 +65,13 @@ typedef struct
     char *result;
 } StrInsertTestData;
 
+typedef struct
+{
+    dstring_t *s;
+    char **keys;
+    char **values;
+    size_t num_params;
+    char *result;
+} DstringTemplateTestData;
+
 #endif

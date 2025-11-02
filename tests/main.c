@@ -4,6 +4,10 @@
 #include "string_tests.h"
 #include "dstring_tests.h"
 
+// DEV
+#include "dstring_utils.h"
+#include "dstring_template.h"
+
 #include "sexyness.h"
 #include "report.h"
 
@@ -17,7 +21,7 @@ int main()
     size_t num_str = 6;
     size_t num_passed_str = 0;
 
-    size_t num_dstring = 8;
+    size_t num_dstring = 9;
     size_t num_passed_dstring = 0;
 
     ////////////////////////////////////////
@@ -41,6 +45,7 @@ int main()
     num_passed_dstring += test_dstring_insert();
     num_passed_dstring += test_dstring_replace();
     num_passed_dstring += test_dstring_set();
+    num_passed_dstring += test_dstring_template();
 
     print_report(num_str, num_passed_str, num_dstring, num_passed_dstring);
 

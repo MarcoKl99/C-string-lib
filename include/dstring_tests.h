@@ -13,4 +13,7 @@ int test_dstring_trim();
 int test_dstring_insert();
 int test_dstring_replace();
 
+// Template Functionality
+int test_dstring_template();
+
 #endif
