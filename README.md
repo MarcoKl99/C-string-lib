@@ -90,6 +90,7 @@ To really dive into the magic of strings in C, the below gives an overview of th
 - `dstring_to_lower`: Convert all chars in the given *dstring_t* content to lowercase
 - `dstring_trim`: Remove all leading and trailing whitespaces from the given string
 - `dstring_replace`: Replace a given substring in the string with a new substring
+- `dstring_insert`: Insert a given substring into the dstring's data after a given index
 
 ## How to build 🏗️
 
