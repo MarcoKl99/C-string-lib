@@ -125,7 +125,23 @@ void dstring_to_upper(dstring_t *s)
         if (s->data[i] >= 'a' && s->data[i] <= 'z')
         {
             // Is lowercase in the original data
-            s->data[i] = s->data[i] - ('a' - 'A');
+            s->data[i] -= ('a' - 'A');
+        }
+    }
+}
+
+void dstring_to_lower(dstring_t *s)
+{
+    // Check for NULL
+    if (!s) return;
+
+    // Iterate and modify data
+    for (size_t i = 0; i < s->length; i++)
+    {
+        if (s->data[i] >= 'A' && s->data[i] <= 'Z')
+        {
+            // Is uppercase in the original data
+            s->data[i] += ('a' - 'A');
         }
     }
 }

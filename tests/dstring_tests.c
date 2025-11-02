@@ -128,6 +128,43 @@ int test_dstring_to_upper()
     return 1;
 }
 
+int test_dstring_to_lower()
+{
+    printf(BLUE "\nTesting dstring_to_lower...\n" RESET);
+
+    // Define test data
+    StringTuple test_data[] = {
+        {"HELLO", "hello"},
+        {"A liTtlE biT MIXeD", "a little bit mixed"},
+        {"is already lower", "is already lower"},
+        {" ", " "},
+        {"&&/()$#*+!", "&&/()$#*+!"},
+        {"", ""},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    // Iterate and test
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        dstring_t *s = dstring_init(test_data[i].s1);
+        if (!s) return 0;
+
+        dstring_to_lower(s);
+
+        if (!str_equal(s->data, test_data[i].s2))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i].s2);
+            return 0;
+        }
+
+        dstring_free(s);
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
+}
+
 int test_dstring_trim()
 {
     printf(BLUE "\nTesting dstring_trim...\n" RESET);

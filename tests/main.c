@@ -17,7 +17,7 @@ int main()
     size_t num_str = 6;
     size_t num_passed_str = 0;
 
-    size_t num_dstring = 6;
+    size_t num_dstring = 7;
     size_t num_passed_dstring = 0;
 
     ////////////////////////////////////////
@@ -36,6 +36,7 @@ int main()
     num_passed_dstring += test_dstring_append();
     num_passed_dstring += test_dstring_reverse();
     num_passed_dstring += test_dstring_to_upper();
+    num_passed_dstring += test_dstring_to_lower();
     num_passed_dstring += test_dstring_trim();
     num_passed_dstring += test_dstring_insert();
     num_passed_dstring += test_dstring_replace();
