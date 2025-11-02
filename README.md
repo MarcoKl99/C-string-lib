@@ -45,14 +45,22 @@ The project is structured in the following way.
 ```text
 C-string-lib/
 ├── include/
+│ ├── dstring_tests.h   // Test functions for the dstring_t struct
+│ ├── dstring_utils.h   // Actual util functions for the dstring_t struct (core)
 │ ├── dtypes.h          // Definitions of data types
-│ ├── string_utils.h    // Headers for string functions
-│ └── test_utils.h      // Headers for test functions
+│ ├── report.h          // Reporting functions for test results
+│ ├── sexyness.h        // Well... look inside 😉
+│ ├── string_tests.h    // Test functions for basic (char *) operations
+│ └── string_utils.h    // Actual util functions for (cahr *)
 ├── src/
-│ └── string_utils.c    // Implementations of the string functions - core of the project
+│ ├── dstring_utils.c
+│ └── string_utils.c
 ├── tests/
+│ ├── dstring_tests.c
 │ ├── main.c            // Invocations of the tests
-│ └── test_utils.c      // Implementations of the test functions
+│ ├── report.c
+│ ├── sexyness.c
+│ └── string_tests.c
 └── Makefile            // Bob the builder right here 👷
 ```
 
@@ -60,23 +68,7 @@ C-string-lib/
 
 You might say "Wow Marco, this project contains so many cool things" but wait! There's more!
 
-Both the string- and test-functions are divided into basic char * utilities and functions based on *dstring_t*, as indicated by the carefully handcrafted comments
-
-```c
-///////////////////////////////////////
-// Utility functions based on char * //
-///////////////////////////////////////
-```
-
-and
-
-```c
-//////////////////////////////////
-// Functions based on dstring_t //
-//////////////////////////////////
-```
-
-The below gives an overview of the functions implemented in the project.
+To really dive into the magic of strings in C, the below gives an overview of the functions implemented in the project.
 
 ### Utility Functions (char *)
 
@@ -94,6 +86,7 @@ The below gives an overview of the functions implemented in the project.
 - `dstring_append`: Append a string to the given *dstring_t* instance, accounting for length, capacity, and a potential reallocation
 - `dstring_reverse`: Reverse a *dstring_t*
 - `dstring_to_upper`: Convert all chars in the given *dstring_t* content to uppercase
+- `dstring_to_lower`: Convert all chars in the given *dstring_t* content to lowercase
 - `dstring_trim`: Remove all leading and trailing whitespaces from the given string
 - `dstring_replace`: Replace a given substring in the string with a new substring
 
@@ -109,6 +102,6 @@ make clean
 
 Have fun and happy coding! 🥳🎉
 
-## License
+## License 📜
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
