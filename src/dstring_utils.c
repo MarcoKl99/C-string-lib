@@ -1,6 +1,7 @@
 #include "dstring_utils.h"
 #include "string_utils.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
 //////////////////////////////////
@@ -41,6 +42,52 @@ dstring_t *dstring_init(const char *init_text)
         }
         s->data[0] = '\0';
     }
+
+    return s;
+}
+
+dstring_t *dstring_from_file(const char *filepath)
+{
+    // Check for NULL
+    if (!filepath) return NULL;
+
+    FILE *f = fopen(filepath, "r");
+    if (!f) return NULL;
+
+    // Determine the size of the file
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    if (fsize < 0)
+    {
+        fclose(f);
+        return NULL;
+    }
+    rewind(f);
+
+    // Create the dstring_t instance from the file's content
+    dstring_t *s = malloc(sizeof(dstring_t));
+    if (!s)
+    {
+        fclose(f);
+        return NULL;
+    }
+
+    s->capacity = (size_t)fsize + 1;
+    s->data = malloc(s->capacity);
+    if (!s->data)
+    {
+        free(s);
+        fclose(f);
+        return NULL;
+    }
+
+    // Read the content of the file
+    size_t read_bytes = fread(s->data, 1, fsize, f);
+    fclose(f);
+
+    // Terminate the string
+    s->data[read_bytes] = '\0';
+    s->length = read_bytes;
 
     return s;
 }

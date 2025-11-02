@@ -3,10 +3,12 @@
 #include "string_utils.h"
 #include "string_tests.h"
 #include "dstring_tests.h"
+#include "env_parser_tests.h"
 
 // DEV
 #include "dstring_utils.h"
 #include "dstring_template.h"
+#include "env_parser.h"
 
 #include "sexyness.h"
 #include "report.h"
@@ -21,8 +23,14 @@ int main()
     size_t num_str = 6;
     size_t num_passed_str = 0;
 
-    size_t num_dstring = 9;
+    size_t num_dstring = 8;
     size_t num_passed_dstring = 0;
+
+    size_t num_env_parser = 1;
+    size_t num_passed_env_parser = 0;
+
+    size_t num_template_parser = 1;
+    size_t num_passed_template_parser = 0;
 
     ////////////////////////////////////////
     // Testing utility functions (char *) //
@@ -45,9 +53,27 @@ int main()
     num_passed_dstring += test_dstring_insert();
     num_passed_dstring += test_dstring_replace();
     num_passed_dstring += test_dstring_set();
-    num_passed_dstring += test_dstring_template();
 
-    print_report(num_str, num_passed_str, num_dstring, num_passed_dstring);
+    /////////////////////////////////////////
+    // Testing the dstring Template Parser //
+    /////////////////////////////////////////
+    num_passed_template_parser += test_dstring_template();
+
+    //////////////////////////////
+    // Testing the env_t Parser //
+    //////////////////////////////
+    num_passed_env_parser += test_env_parser();
+
+    print_report(
+        num_str,
+        num_passed_str,
+        num_dstring,
+        num_passed_dstring,
+        num_env_parser,
+        num_passed_env_parser,
+        num_template_parser,
+        num_passed_template_parser
+    );
 
     return 0;
 }

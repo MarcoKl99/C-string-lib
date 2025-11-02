@@ -74,4 +74,11 @@ typedef struct
     char *result;
 } DstringTemplateTestData;
 
+typedef struct
+{
+    char **keys;
+    char **values;
+    size_t count;
+} env_t;
+
 #endif

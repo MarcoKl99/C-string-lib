@@ -8,6 +8,8 @@
 // Functions based on dstring_t //
 //////////////////////////////////
 dstring_t *dstring_init(const char *init_text);
+dstring_t *dstring_from_file(const char *filepath);
+
 void dstring_free(dstring_t *s);
 void dstring_set(dstring_t *s, char *str);
 
