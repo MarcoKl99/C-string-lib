@@ -83,6 +83,7 @@ To really dive into the magic of strings in C, the below gives an overview of th
 
 - `dstring_init`: Create a *dstring_t* instance based on a given char * string that it should contain
 - `dstring_free`: Properly free a given *dstring_t* and the containing string (No dangling pointers allowed in this house!)
+- `dstring_set`: Set the value of the string contained in the *dstring_t* instance to a given (char *)
 - `dstring_append`: Append a string to the given *dstring_t* instance, accounting for length, capacity, and a potential reallocation
 - `dstring_reverse`: Reverse a *dstring_t*
 - `dstring_to_upper`: Convert all chars in the given *dstring_t* content to uppercase

@@ -4,6 +4,7 @@
 /////////////////////////////////
 // Testing dstring_t functions //
 /////////////////////////////////
+int test_dstring_set();
 int test_dstring_append();
 int test_dstring_reverse();
 int test_dstring_to_upper();

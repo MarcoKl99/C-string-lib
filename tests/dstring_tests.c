@@ -12,6 +12,57 @@
 /////////////////////////////////
 // Testing dstring_t functions //
 /////////////////////////////////
+int test_dstring_set()
+{
+    printf(BLUE "\nTesting dstring_set...\n" RESET);
+
+    // First, test setting it to NULL
+    char *init_str = "Init string";
+    dstring_t *s = dstring_init(init_str);
+    if (!s)
+    {
+        printf(RED "\t🔴 Failed: Could not init dstring with data %s" RESET, init_str);
+        return 0;
+    }
+    dstring_set(s, NULL);
+    
+    // Function should not do anthing -> Check for the init string
+    if (!str_equal(s->data, init_str))
+    {
+        printf(RED "\t🔴 Failed: %s != %s\n", s->data, init_str);
+        return 0;
+    }
+
+    // Define test data
+    char *test_data[] = {
+        "Test",
+        "",
+        "Hello this is a little bit longer of a text - think about reallocation right here ;)",
+        "Another simple text.",
+        "Many many strings here",
+        "Hello my dear friend",
+        "Want some coffee? ;)",
+        "Alright, this is the same case now so let's stop right here.",
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        // Set the string
+        dstring_set(s, test_data[i]);
+
+        if (!str_equal(s->data, test_data[i]))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", s->data, test_data[i]);
+            return 0;
+        }
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
+}
+
 int test_dstring_append()
 {
     printf(BLUE "\nTesting dstring_append...\n" RESET);

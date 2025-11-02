@@ -9,6 +9,8 @@
 //////////////////////////////////
 dstring_t *dstring_init(const char *init_text);
 void dstring_free(dstring_t *s);
+void dstring_set(dstring_t *s, char *str);
+
 void dstring_append(dstring_t *s, const char *suffix);
 void dstring_reverse(dstring_t *str);
 void dstring_to_upper(dstring_t *s);

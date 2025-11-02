@@ -62,6 +62,39 @@ void dstring_free(dstring_t *s)
     free(s);
 }
 
+void dstring_set(dstring_t *s, char *str)
+{
+    // Check for NULL
+    if (!s || !str) return;
+
+    // Check for self invocation
+    if (s->data == str) return;
+
+    // Reallocate if needed
+    size_t new_cap = str_length(str) + 1;
+    if (new_cap > s->capacity)
+    {
+        char *tmp = realloc(s->data, new_cap);
+        if (!tmp) return;
+
+        s->data = tmp;
+        s->capacity = new_cap;
+    }
+
+    // Set the new string
+    size_t l_new = str_length(str);
+    for (size_t i = 0; i < l_new; i++)
+    {
+        s->data[i] = str[i];
+    }
+
+    // Set the terminator
+    s->data[l_new] = '\0';
+
+    // Set the new length
+    s->length = l_new;
+}
+
 void dstring_append(dstring_t *s, const char *suffix)
 {
     if (!s || !suffix) return;
