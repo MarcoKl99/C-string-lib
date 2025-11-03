@@ -6,6 +6,7 @@
 // Some constants
 #define MAX_PAIRS 100
 #define STR_INIT_CAPACITY 16
+#define MAX_CLI_ARG_LENGTH 512
 
 // The infamous dstring_t
 typedef struct {
@@ -83,9 +84,9 @@ typedef struct
 
 typedef struct
 {
-    char *template_path;
-    char *env_path;
-    char *output_path;  // Optional
+    char template_path[MAX_CLI_ARG_LENGTH];
+    char env_path[MAX_CLI_ARG_LENGTH];
+    char output_path[MAX_CLI_ARG_LENGTH];
 } cli_args_t;
 
 #endif

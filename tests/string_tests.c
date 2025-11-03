@@ -60,8 +60,9 @@ int test_str_copy()
     for (int i = 0; i < num_test_strs; i++)
     {
         char *src = test_strs[i];
-        char dest[100];
-        str_copy(src, dest);
+        size_t dest_capacity = 100;
+        char dest[dest_capacity];
+        str_copy(src, dest, dest_capacity);
         if (!str_equal(src, dest))
         {
             printf(RED "\t🔴 Failed: %s != %s\n" RESET, src, dest);

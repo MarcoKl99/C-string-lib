@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     // Process the template + env
     template_apply(template, env->keys, env->values, env->count);
 
-    if (args->output_path)
+    if (str_length(args->output_path) > 0)
     {
         // Save the result to the specified file
         dstring_to_file(template, args->output_path);

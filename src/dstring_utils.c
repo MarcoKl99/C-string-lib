@@ -27,7 +27,7 @@ dstring_t *dstring_init(const char *init_text)
         }
 
         // Copy the init text to the dstrings data
-        str_copy(init_text, s->data);
+        str_copy(init_text, s->data, s->capacity);
     }
     else
     {
