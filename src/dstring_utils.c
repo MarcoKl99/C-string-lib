@@ -51,12 +51,19 @@ dstring_t *dstring_from_file(const char *filepath)
     // Determine the size of the file
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
-    if (fsize < 0)
+    if (fsize < 0 || (unsigned long)fsize > SIZE_MAX)
     {
         fclose(f);
         return NULL;
     }
     rewind(f);
+
+    // Check that the file is not too big
+    if ((size_t)fsize > DSTRING_MAX_FILE_SIZE)
+    {
+        fclose(f);
+        return NULL;
+    }
 
     // Create the dstring_t instance from the file's content
     dstring_t *s = malloc(sizeof(dstring_t));
@@ -77,6 +84,15 @@ dstring_t *dstring_from_file(const char *filepath)
 
     // Read the content of the file
     size_t read_bytes = fread(s->data, 1, fsize, f);
+
+    // Check if the read bytes are the expected
+    if (read_bytes < (size_t)fsize && ferror(f))
+    {
+        free(s->data);
+        free(s);
+        fclose(f);
+        return NULL;
+    }
     fclose(f);
 
     // Terminate the string
