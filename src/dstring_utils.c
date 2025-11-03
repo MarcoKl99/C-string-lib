@@ -347,20 +347,29 @@ void dstring_insert(dstring_t *s, char *s_insert, size_t insert_after_idx)
 void dstring_replace(dstring_t *s, char *substr, char *replacement)
 {
     // Check for NULLs
-    if (!s || !substr || !replacement ) return;
+    if (!s || !substr || !replacement || !s->data) return;
 
-    // Get the pointer to the first substr occurrence
-    if (!str_find(s->data, substr)) return;  // No occurrences found in the string
+    // I know, not the most efficient of em all, but here I already check if the substr is in s->data (later again)
+    if (!str_find(s->data, substr)) return;
 
     // Check if we need to reallocate
     size_t len_substr = str_length(substr);
+    if (len_substr == 0) return;
+
     size_t len_replacement = str_length(replacement);
+
+    // Check against large replacements -> overflow (str_length returns -1 in that case)
+    if (len_replacement == -1) return;
+
+    // Check if the new len would be too large
+    if (s->length - len_substr > SIZE_MAX - len_replacement) return;
+
     size_t new_len = s->length - len_substr + len_replacement;
 
     if (s->capacity < new_len + 1)
     {
         // Calculate the new capacity
-        while (s->capacity < new_len * 2)
+        while (s->capacity < new_len + 1 && s->capacity < SIZE_MAX / 2)
         {
             s->capacity *= 2;
         }
@@ -370,8 +379,11 @@ void dstring_replace(dstring_t *s, char *substr, char *replacement)
         if (!s->data) return;
     }
 
-    // After reallocating -> determine the pointer to the start of the substr
+    // Determine the pointer to the start of the substr
     char *substr_occurrence = str_find(s->data, substr);
+
+    // Get the pointer to the first substr occurrence
+    if (!substr_occurrence) return;  // No occurrences found in the string
 
     // Make enough space for the replacement
     int shift = len_replacement - len_substr;

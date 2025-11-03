@@ -293,7 +293,7 @@ int test_dstring_insert()
 
 int test_dstring_replace()
 {
-    printf(BLUE "\nTesting dstring_insert...\n" RESET);
+    printf(BLUE "\nTesting dstring_replace...\n" RESET);
 
     // Define test data
     StringQuad test_data[] = {
