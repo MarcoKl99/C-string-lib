@@ -17,31 +17,25 @@ dstring_t *dstring_init(const char *init_text)
         // Init text was given
         s->length = str_length(init_text);
         s->capacity = (s->length + 1 > STR_INIT_CAPACITY) ? s->length + 1 : STR_INIT_CAPACITY;
-        s->data = malloc(s->capacity);
-        
-        // Check if data was successfully initialized
-        if (!s->data)
-        {
-            free(s);
-            return NULL;
-        }
-
-        // Copy the init text to the dstrings data
-        str_copy(init_text, s->data, s->capacity);
     }
     else
     {
         // No init text was given -> init empty
         s->length = 0;
         s->capacity = STR_INIT_CAPACITY;
-        s->data = malloc(s->capacity);
-        if (!s->data)
-        {
-            free(s);
-            return NULL;
-        }
-        s->data[0] = '\0';
     }
+
+    s->data = malloc(s->capacity);
+
+    // Check if data was successfully initialized
+    if (!s->data)
+    {
+        free(s);
+        return NULL;
+    }
+
+    if (init_text) str_copy(init_text, s->data, s->capacity);
+    else s->data[0] = '\0';
 
     return s;
 }
