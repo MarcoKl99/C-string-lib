@@ -211,6 +211,9 @@ void dstring_reverse(dstring_t *str)
     // Check if the data char * is NULL
     if (!str->data) return;
 
+    // Check if the string is only 1 char --> nothing to do here
+    if (str->length < 2) return;
+
     for (size_t i = 0; i < str->length / 2; i++)
     {
         // Define the lower and upper idx to swap values
@@ -260,11 +263,14 @@ void dstring_to_lower(dstring_t *s)
 void dstring_trim(dstring_t *s)
 {
     // Null pointer check
-    if (!s) return;
+    if (!s || !s->data) return;
+
+    // Check for the empty string
+    if (s->length == 0) return;
 
     // Trim trailing whitespaces
     size_t end_idx = s->length - 1;
-    while (s->data[end_idx] == ' ')
+    while (end_idx + 1 > 0 && s->data[end_idx] == ' ')
     {
         end_idx--;
     }
@@ -280,37 +286,48 @@ void dstring_trim(dstring_t *s)
         start_idx++;
     }
 
-    // Set the new data and length
-    s->data += start_idx;
+    // Check if end_idx < start_idx
+    if (end_idx < start_idx)
+    {
+        s->data[0] = '\0';
+        s->length = 0;
+        return;
+    }
+
+    // Move the data <start_idx> to the front
+    for (size_t i = start_idx; i < s->length; i++)
+    {
+        s->data[i - start_idx] = s->data[i];
+    }
+    s->data[s->length - start_idx] = '\0';
+
+    // Set the new length
     s->length = s->length - start_idx;
 }
 
 void dstring_insert(dstring_t *s, char *s_insert, size_t insert_after_idx)
 {
-    // Check if the argument insert_after_idx makes sense
-    if (insert_after_idx > s->length - 1) return;
-
     // Null pointer check
     if (!s) return;
     if (!s_insert) return;
 
+    // Check if the argument insert_after_idx makes sense
+    if (insert_after_idx > s->length - 1) return;
+
     // Check, if new capacity must be allocated
     size_t l_insert = str_length(s_insert);
-    size_t required_capacity = s->length + l_insert;
-    if (s->capacity < required_capacity * 2)
+    size_t new_capacity = s->capacity ? s->capacity : STR_INIT_CAPACITY;
+    while (new_capacity < s->length + l_insert + 1)
     {
-        // Reallocate new capacity
-        while (s->capacity < required_capacity * 2)
-        {
-            s->capacity *= 2;
-        }
-
-        // Reallocate
-        char *tmp = realloc(s->data, s->capacity);
-        if (!tmp) return;
-
-        s->data = tmp;
+        // Overflow protection
+        if (new_capacity > SIZE_MAX / 2) return;
+        new_capacity *= 2;
     }
+
+    char *tmp = realloc(s->data, new_capacity);
+    if (!tmp) return;
+    s->data = tmp;
+    s->capacity = new_capacity;
 
     // Push the char back by the length of the given s_insert
     for (size_t i = s->length; i > insert_after_idx; i--)
@@ -323,6 +340,8 @@ void dstring_insert(dstring_t *s, char *s_insert, size_t insert_after_idx)
     {
         s->data[insert_after_idx + 1 + i] = s_insert[i];
     }
+
+    s->length += l_insert;
 }
 
 void dstring_replace(dstring_t *s, char *substr, char *replacement)
