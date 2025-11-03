@@ -62,13 +62,10 @@ int str_equal(const char *s1, const char *s2)
     return 1;
 }
 
-char *str_copy(const char *src, char *dest, size_t dest_size)
+void str_copy(const char *src, char *dest, size_t dest_size)
 {
     // Check for NULLs
-    if (!src || !dest || dest_size == 0) return NULL;
-
-    // Save where dest begins for return
-    char *start = dest;
+    if (!src || !dest || dest_size == 0) return;
 
     // Iterate over src until we find the terminator
     size_t i = 0;
@@ -80,8 +77,6 @@ char *str_copy(const char *src, char *dest, size_t dest_size)
 
     // Set the terminator at the end of dest
     dest[i] = '\0';
-
-    return start;
 }
 
 char *str_find(char *haystack, char *needle)

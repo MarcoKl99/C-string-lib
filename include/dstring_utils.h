@@ -4,7 +4,7 @@
 #include "dtypes.h"
 #include <stdlib.h>
 
-#define DSTRING_MAX_FILE_SIZE (10 * 1024 * 1024)
+#define DSTRING_MAX_SIZE (10 * 1024 * 1024)
 
 //////////////////////////////////
 // Functions based on dstring_t //

@@ -59,7 +59,7 @@ dstring_t *dstring_from_file(const char *filepath)
     rewind(f);
 
     // Check that the file is not too big
-    if ((size_t)fsize > DSTRING_MAX_FILE_SIZE)
+    if ((size_t)fsize > DSTRING_MAX_SIZE)
     {
         fclose(f);
         return NULL;
@@ -108,7 +108,7 @@ int dstring_to_file(dstring_t *s, char *filepath)
     if (!s || !filepath) return -1;
 
     // CHeck that the dstring size is not too big
-    if (s->length > DSTRING_MAX_FILE_SIZE) return -1;
+    if (s->length > DSTRING_MAX_SIZE) return -1;
 
     FILE *f = fopen(filepath, "wb");
     if (!f) return -1;
@@ -160,6 +160,7 @@ void dstring_set(dstring_t *s, char *str)
     {
         s->data[i] = str[i];
     }
+    str_copy(str, s->data, s->capacity);
 
     // Set the terminator
     s->data[l_new] = '\0';
@@ -176,8 +177,11 @@ void dstring_append(dstring_t *s, const char *suffix)
     size_t l_add = str_length(suffix);
     size_t l_new = s->length + l_add;
 
+    // Check that the new string is not too large
+    if (l_new > DSTRING_MAX_SIZE) return;
+
     // Check if the data must be reallocated
-    if (s->capacity < (l_new + 1))
+    if (s->capacity < (l_new + 1) && s->capacity < SIZE_MAX / 2)
     {
         size_t new_capacity = s->capacity * 2;
         while (new_capacity < l_new + 1)
