@@ -107,7 +107,10 @@ int dstring_to_file(dstring_t *s, char *filepath)
     // Check for NULLs
     if (!s || !filepath) return -1;
 
-    FILE *f = fopen(filepath, "w");
+    // CHeck that the dstring size is not too big
+    if (s->length > DSTRING_MAX_FILE_SIZE) return -1;
+
+    FILE *f = fopen(filepath, "wb");
     if (!f) return -1;
 
     size_t written = fwrite(s->data, 1, s->length, f);
@@ -119,21 +122,17 @@ int dstring_to_file(dstring_t *s, char *filepath)
     return 0;
 }
 
-void dstring_free(dstring_t *s)
+void dstring_free(dstring_t **s)
 {
     // Check for NULL value
-    if (!s) return;
+    if (!s || !(*s)) return;
 
     // Free the data
-    free(s->data);
-
-    // Avoid dangling pointers -> reset the values
-    s->data = NULL;
-    s->length = 0;
-    s->capacity = 0;
-
-    // Free the object itself
-    free(s);
+    free((*s)->data);
+    free(*s);
+    
+    // Note: Here we reset the s-pointer of the caller -> No dangling pointer anymore
+    *s = NULL;
 }
 
 void dstring_set(dstring_t *s, char *str)

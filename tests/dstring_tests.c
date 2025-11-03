@@ -100,7 +100,7 @@ int test_dstring_append()
         }
 
         // Free the dstring_t instance
-        dstring_free(s);
+        dstring_free(&s);
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
@@ -136,7 +136,7 @@ int test_dstring_reverse()
             return 0;
         }
 
-        dstring_free(s);
+        dstring_free(&s);
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
@@ -172,7 +172,7 @@ int test_dstring_to_upper()
             return 0;
         }
 
-        dstring_free(s);
+        dstring_free(&s);
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);
@@ -209,7 +209,7 @@ int test_dstring_to_lower()
             return 0;
         }
 
-        dstring_free(s);
+        dstring_free(&s);
     }
 
     printf(GREEN "\t🟢 Passed!\n" RESET);

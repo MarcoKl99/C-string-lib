@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     free(env->keys);
     free(env->values);
     free(env);
-    dstring_free(template);
+    dstring_free(&template);
 
     return 0;
 }
