@@ -7,6 +7,7 @@
 ///////////////////////////////////////
 size_t str_length(const char *str)
 {
+    // Check for NULLs
     if (!str) return 0;
 
     // Init a counter and increment until the '\0' char is found
@@ -18,7 +19,7 @@ size_t str_length(const char *str)
         // Stop if len is larger than what size_t can store
         if (len == SIZE_MAX)
         {
-            return -1;
+            return 0;
         }
     }
 
@@ -43,7 +44,8 @@ int str_equal(const char *s1, const char *s2)
         return 1;
     }
 
-    while (*s1 != '\0' && *s2 != '\0')
+    size_t counter = 0;
+    while (*s1 != '\0' && *s2 != '\0' && counter < SIZE_MAX)
     {
         if (*s1 != *s2)
         {
@@ -51,6 +53,7 @@ int str_equal(const char *s1, const char *s2)
         }
         s1++;
         s2++;
+        counter++;
     }
 
     // If lengths differ
@@ -69,7 +72,7 @@ void str_copy(const char *src, char *dest, size_t dest_size)
 
     // Iterate over src until we find the terminator
     size_t i = 0;
-    while (*src != '\0' && i < dest_size - 1)
+    while (src[i] != '\0' && i < dest_size - 1)
     {
         dest[i] = src[i];
         i++;
@@ -82,6 +85,9 @@ void str_copy(const char *src, char *dest, size_t dest_size)
 char *str_find(char *haystack, char *needle)
 {
     // Find the needle in the haystack hehe ;)
+
+    // Check for NULLs
+    if (!haystack || !needle) return NULL;
 
     // Catch the case that the needle is the empty string
     if (*needle == '\0')
@@ -123,7 +129,7 @@ char *str_find(char *haystack, char *needle)
         // if (is_streak) printf("Haystack: %c - Needle current: %c\n", *haystack, *needle_current);
 
         // Check if the entire string has been found
-        if (*(needle_current + 1) == '\0')
+        if (*needle_current == '\0')
         {
             // Terminate
             return streak_start;

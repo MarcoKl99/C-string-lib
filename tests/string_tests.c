@@ -129,7 +129,7 @@ int test_str_find()
         {"Programming", "gram"},
         {"Any random string", ""},
         {"", ""},
-        {"From: {{SENDER_NAME}} <{{SENDER_EMAIL}}>", "{{SENDER_EMAIL}}\n"},
+        {"From: {{SENDER_NAME}} <{{SENDER_EMAIL}}>", "{{SENDER_EMAIL}}"},
     };
 
     size_t num_matches = sizeof(test_data_match) / sizeof(test_data_match[0]);
@@ -146,7 +146,7 @@ int test_str_find()
     }
 
     const StringTuple test_data_mismatch[] = {
-        {"Have a great day!", "abc"},
+        {"Have a great day!", "dai"},
         {"What is this test even?", "!"},
         {"ckjsdhgtisr", "solar system (WHAT?)"},
         {"", "a"},

@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "string_utils.h"
+
 #include "string_tests.h"
 #include "dstring_tests.h"
 #include "template_tests.h"
