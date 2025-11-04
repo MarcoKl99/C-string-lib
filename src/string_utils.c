@@ -102,8 +102,13 @@ char *str_find(char *haystack, char *needle)
     size_t is_streak = 0;
 
     // Iterate through the haystack and search for a match in the first character
+    size_t counter = 0;
     while (*haystack != '\0')
     {
+        // Check for too long loops
+        if (counter == SIZE_MAX) return NULL;
+        counter++;
+
         // Check against the current needle position
         if (*haystack == *needle_current)
         {
