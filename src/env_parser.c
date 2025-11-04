@@ -3,6 +3,21 @@
 #include "dtypes.h"
 #include "string_utils.h"
 
+void free_env(env_t *env)
+{
+    if (!env) return;
+
+    for (size_t i = 0; i < env->count; i++)
+    {
+        free(env->keys[i]);
+        free(env->values[i]);
+    }
+
+    free(env->keys);
+    free(env->values);
+    free(env);
+}
+
 env_t *load_env(const char *filepath)
 {
     // Check for NULL
@@ -45,7 +60,7 @@ env_t *load_env(const char *filepath)
         // Check if only 2 elements have been found
         if (num_elements != 2)
         {
-            free(env);
+            free_env(env);
             fclose(f);
             return NULL;
         }
@@ -57,15 +72,14 @@ env_t *load_env(const char *filepath)
         env->keys = (char **)realloc(env->keys, (sizeof(char *)) * (env->count + 1));
         if (!env->keys)
         {
-            free(env);
+            free_env(env);
             fclose(f);
             return NULL;
         }
         env->values = (char **)realloc(env->values, (sizeof(char *)) * (env->count + 1));
         if (!env->values)
         {
-            free(env->keys);
-            free(env);
+            free_env(env);
             fclose(f);
             return NULL;
         }
@@ -74,6 +88,13 @@ env_t *load_env(const char *filepath)
         env->keys[env->count] = key;
         env->values[env->count] = value;
         env->count++;
+
+        if (env->count == SIZE_MAX)
+        {
+            free_env(env);
+            fclose(f);
+            return NULL;
+        }
     }
 
     // Close the file and return the result
