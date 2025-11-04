@@ -184,7 +184,7 @@ size_t str_count(const char *s, const char *substr)
 char **str_split(const char *s, char delimiter, size_t *count)
 {
     // Catch the case of the null pointer
-    if (!s)
+    if (!s || str_length(s) == 0)
     {
         if (count) *count = 0;
         return NULL;
