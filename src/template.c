@@ -12,6 +12,7 @@ void tempalte_single_replace(dstring_t *s, char *key, char *value)
     // Build the placeholder for the key
     size_t key_length = str_length(key);
     char *placeholder = malloc(key_length + 5);
+    if (!placeholder) return;
 
     // Fill the placeholder with the key
     placeholder[0] = '{';
@@ -27,10 +28,16 @@ void tempalte_single_replace(dstring_t *s, char *key, char *value)
     placeholder[key_length + 4] = '\0';
 
     // Replace all placeholders in the original string
+    size_t counter = 0;
     while (str_find(s->data, placeholder))
     {
         dstring_replace(s, placeholder, value);
+        if (counter == SIZE_MAX) return;
+        counter++;
     }
+
+    // Free the placeholder
+    free(placeholder);
 }
 
 void template_apply(dstring_t *s, char **keys, char **values, size_t num_params)
