@@ -228,7 +228,7 @@ int test_str_split()
     StrSplitTestData td6 = {"teeeest", 'e', 5, tokens6};
 
     const char *tokens7[] = {""};
-    StrSplitTestData td7 = {"", ' ', 1, tokens7};
+    StrSplitTestData td7 = {"", ' ', 0, tokens7};
 
     const char *tokens8[] = {};
     StrSplitTestData td8 = {NULL, ' ', 0, tokens8};
@@ -243,7 +243,10 @@ int test_str_split()
         td = test_data[i];
         char **split = str_split(td.s, td.delimiter, &count);
 
-        if (count != td.num_tokens) return 0;
+        if (count != td.num_tokens){
+            printf(RED "\t🔴 Failed: Count = %zu and should be %zu at s = %s\n", count, td.num_tokens, td.s);
+            return 0;
+        }
 
         for (size_t k = 0; k < count; k++)
         {
