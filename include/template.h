@@ -3,10 +3,11 @@
 
 #include "dtypes.h"
 
-// Templating functionality for dstrung_t instances!
-// This can be used to define tempaltes and fill in values based on specified keys.
+#define DEFAULT_PLACEHOLDER_VALUE "UNKNOWN";
 
-void tempalte_single_replace(dstring_t *s, char *key, char *value);
-void template_apply(dstring_t *s, char **keys, char **values, size_t num_params);
+char *_get_value_for_key(char *key, env_t *env);
+char *_get_next_placeholder(dstring_t *s);
+void _set_key_transform_tuple(KeyTransformTuple *t, char *placeholder);
+void template_apply(dstring_t *s, env_t *env);
 
 #endif

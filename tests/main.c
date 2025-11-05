@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     amazing_test_intro();
 
     // Track the number of passed tests
-    size_t num_str = 6;
+    size_t num_str = 9;
     size_t num_passed_str = 0;
 
     size_t num_dstring = 8;
@@ -36,6 +36,9 @@ int main(int argc, char *argv[])
     num_passed_str += test_str_find();
     num_passed_str += test_str_count();
     num_passed_str += test_str_split();
+    num_passed_str += test_str_substr();
+    num_passed_str += test_str_to_upper();
+    num_passed_str += test_str_to_lower();
 
     /////////////////////////////////
     // Testing dstring_t functions //

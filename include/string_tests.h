@@ -10,5 +10,8 @@ int test_str_copy();
 int test_str_find();
 int test_str_count();
 int test_str_split();
+int test_str_substr();
+int test_str_to_upper();
+int test_str_to_lower();
 
 #endif

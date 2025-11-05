@@ -35,11 +35,25 @@ int test_template()
     size_t size4 = 1;
     char *res4 = "E-MAIL: <test@test.com>";
 
+    dstring_t *s5 = dstring_init("Hello my first name is {{upper:first}} and my last name is {{lower:last}}");
+    char *keys5[] = {"first", "last"};
+    char *values5[] = {"Bob", "Bauer"};
+    size_t size5 = 2;
+    char *res5 = "Hello my first name is BOB and my last name is bauer";
+
+    dstring_t *s6 = dstring_init("This string's name is {{upper:name}} + non-literal chars {{upper:nonliteral}} {{lower:nonliteral}}");
+    char *keys6[] = {"name", "nonliteral"};
+    char *values6[] = {"Peter", "&/§!"};
+    size_t size6 = 2;
+    char *res6 = "This string's name is PETER + non-literal chars &/§! &/§!";
+
     DstringTemplateTestData test_data[] = {
         {s1, keys1, values1, size1, res1},
         {s2, keys2, values2, size2, res2},
         {s3, keys3, values3, size3, res3},
         {s4, keys4, values4, size4, res4},
+        {s5, keys5, values5, size5, res5},
+        {s6, keys6, values6, size6, res6},
     };
 
     size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
@@ -50,7 +64,9 @@ int test_template()
         {
             DstringTemplateTestData td = test_data[i];
 
-            template_apply(td.s, td.keys, td.values, td.num_params);
+            env_t env = {td.keys, td.values, td.num_params};
+
+            template_apply(td.s, &env);
 
             if (!str_equal(td.s->data, td.result))
             {

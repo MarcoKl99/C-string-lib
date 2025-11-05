@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     dstring_t *template = dstring_from_file(args->template_path);
 
     // Process the template + env
-    template_apply(template, env->keys, env->values, env->count);
+    template_apply(template, env);
 
     if (str_length(args->output_path) > 0)
     {

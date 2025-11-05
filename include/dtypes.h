@@ -89,4 +89,20 @@ typedef struct
     char output_path[MAX_CLI_ARG_LENGTH];
 } cli_args_t;
 
+typedef struct
+{
+    char *src;
+    size_t from_idx;
+    size_t to_idx;
+    char *result;
+} StrSubstrTestData;
+
+typedef char *(*string_transform_fn)(char *);
+
+typedef struct
+{
+    char *key;
+    string_transform_fn fn;
+} KeyTransformTuple;
+
 #endif

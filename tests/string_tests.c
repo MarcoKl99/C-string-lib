@@ -264,3 +264,103 @@ int test_str_split()
     printf(GREEN "\t🟢 Passed!\n" RESET);
     return 1;
 }
+
+int test_str_substr()
+{
+    printf(BLUE "\nTesting str_substr...\n" RESET);
+
+    // Create the test data
+    char s_test[] = "This is a test!";
+    StrSubstrTestData test_data[] = {
+        {"Hello World", 0, 5, "Hello"},
+        {"Hello World", 6, 11, "World"},
+        {"This is another test", 8, 15, "another"},
+        {s_test, 0, str_length(s_test), s_test},
+        {NULL, 1, 2, NULL},
+        {"Hello", 3, 2, NULL},
+        {"", 0, 0, NULL},
+        {"Hello", 37, 149, NULL},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    // Iterate and test
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StrSubstrTestData td = test_data[i];
+
+        char *substr = str_substr(td.src, td.from_idx, td.to_idx);
+        if (!str_equal(substr, td.result))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", substr, td.result);
+            return 0;
+        }
+
+        free(substr);
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
+}
+
+int test_str_to_upper()
+{
+    printf(BLUE "\nTesting str_to_upper...\n" RESET);
+
+    // Define test data
+    StringTuple test_data[] = {
+        {"hello", "HELLO"},
+        {NULL, NULL},
+        {"", ""},
+        {"!§&/", "!§&/"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StringTuple td = test_data[i];
+
+        char *upper = str_to_upper(td.s1);
+
+        if (!str_equal(upper, td.s2))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", upper, td.s2);
+            return 0;
+        }
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
+}
+
+int test_str_to_lower()
+{
+    printf(BLUE "\nTesting str_to_lower...\n" RESET);
+
+    // Define test data
+    StringTuple test_data[] = {
+        {"HeLlO", "hello"},
+        {NULL, NULL},
+        {"", ""},
+        {"!§&/", "!§&/"},
+    };
+
+    size_t num_test_data = sizeof(test_data) / sizeof(test_data[0]);
+
+    for (size_t i = 0; i < num_test_data; i++)
+    {
+        StringTuple td = test_data[i];
+
+        char *lower = str_to_lower(td.s1);
+
+        if (!str_equal(lower, td.s2))
+        {
+            printf(RED "\t🔴 Failed: %s != %s\n", lower, td.s2);
+            return 0;
+        }
+    }
+
+    printf(GREEN "\t🟢 Passed!\n" RESET);
+    return 1;
+}

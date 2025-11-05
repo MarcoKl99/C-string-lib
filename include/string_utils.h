@@ -13,5 +13,8 @@ void str_copy(const char *src, char *dest, size_t dest_size);
 char *str_find(char *haystack, char *needle);
 size_t str_count(const char *s, const char *substr);
 char **str_split(const char *s, char delimiter, size_t *count);
+char *str_substr(const char *src, size_t from_idx, size_t to_idx);
+char *str_to_upper(char *s);
+char *str_to_lower(char *s);
 
 #endif

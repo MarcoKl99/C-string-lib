@@ -277,3 +277,87 @@ char **str_split(const char *s, char delimiter, size_t *count)
 
     return tokens;
 }
+
+char *str_substr(const char *src, size_t from_idx, size_t to_idx)
+{
+    // Check for NULLs
+    if (!src) return NULL;
+
+    // Check that the to_idx is larger or equal than the from_idx
+    if (to_idx < from_idx) return NULL;
+
+    // Catch the case that the indexes are equal
+    if (from_idx == to_idx) return NULL;
+
+    // Check if the indices are not-negative
+    if (from_idx < 0 || to_idx < 0) return NULL;
+
+    // Check if the indices are within the range of the string
+    size_t len_src = str_length(src);
+    if (from_idx < 0 || len_src < to_idx) return NULL;
+
+    // Create the proper substring
+    size_t len = to_idx - from_idx;
+    char *substr = malloc(len + 1);
+    for (size_t i = 0; i < len; i++)
+    {
+        substr[i] = src[from_idx + i];
+    }
+
+    // Terminate the string
+    substr[len] = '\0';
+
+    return substr;
+}
+
+char *str_to_upper(char *s)
+{
+    // Check for NULLs
+    if (!s) return NULL;
+
+    size_t len_s = str_length(s);
+    char *s_upper = malloc(len_s + 1);
+    if (!s_upper) return NULL;
+
+    for (size_t i = 0; i < len_s; i++)
+    {
+        if (s[i] >= 'a' && s[i] <= 'z')
+        {
+            // Is lowercase in the original data
+            s_upper[i] = s[i] - ('a' - 'A');
+        }
+        else
+        {
+            s_upper[i] = s[i];
+        }
+    }
+    s_upper[len_s] = '\0';
+
+    return s_upper;
+}
+
+char *str_to_lower(char *s)
+{
+    // Check for NULLs
+    if (!s) return NULL;
+
+    size_t len_s = str_length(s);
+    char *s_lower = malloc(len_s + 1);
+    if (!s_lower) return NULL;
+
+    for (size_t i = 0; i < len_s; i++)
+    {
+        if (s[i] >= 'A' && s[i] <= 'Z')
+        {
+            // Is lowercase in the original data
+            s_lower[i] = s[i] + ('a' - 'A');
+        }
+        else
+        {
+            s_lower[i] = s[i];
+        }
+    }
+    s_lower[len_s] = '\0';
+
+    return s_lower;
+}
