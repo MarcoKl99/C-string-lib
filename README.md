@@ -4,6 +4,8 @@
 
 Welcome to this small project on a few implementations of utilites regarding Strings in C!
 
+**Bonus:** A small templating CLI has been implemented, as described in the lower part of this file! This serves as a small example use-case for the implemented string functionalities.
+
 ## Sumamry 🏎️
 
 The project consists of
@@ -40,6 +42,9 @@ The core functionality of the project consists of the following parts.
 - `str_find`:   Find a substring (the needle) in a string (the haystack) and return a pointer to the first char of the occurrence if present
 - `str_count`:  Count the number of occurrences of a substring in a given string
 - `str_split`:  Split a string at a given substring and return a list of the resulting pieces (the famous pointer to pointer!)
+- `str_substr`: Get the substring of a given string, specified by a start- and end-index
+- `str_to_upper`: Return a new string as the uppercase version of the given one
+- `str_to_lower`: Return a new string as the lowercase version of the given one
 
 ### New dstring_t Functions ✨
 
@@ -52,8 +57,8 @@ The core functionality of the project consists of the following parts.
 - `dstring_to_upper`:   Convert all chars in the given *dstring_t* content to uppercase
 - `dstring_to_lower`:   Convert all chars in the given *dstring_t* content to lowercase
 - `dstring_trim`:       Remove all leading and trailing whitespaces from the given string
-- `dstring_replace`:    Replace a given substring in the string with a new substring
 - `dstring_insert`:     Insert a given substring into the dstring's data after a given index
+- `dstring_replace`:    Replace a given substring in the string with a new substring
 
 ### Template-Parser 🔎
 
@@ -97,13 +102,20 @@ This can e.g. be invoked together with the tempalte parser and the method `dstri
 The provided CLI `tempalter` enables the user to populate templates of the form
 
 ```text
-Hello {{name}}, this is a text...
+Hello {{name}}, this is a text that can be filled with
+
+Normal parameters: {{param}}
+Uppercase parameters: {{upper:param}}
+Lowercase parameters: {{lower:param}}
+
+Have fun!
 ```
 
 With an environment file like the following.
 
 ```text
 name=Peter
+param=MyCrazyParameter
 ...
 ```
 
@@ -173,7 +185,7 @@ While certainly not winning an award 🏆, this project aims for deepening the u
 - Allocation on the Stack vs. Heap
 - Usage of pointers (the classic topic... 😉) and memory management
 - Basic structure of small projects
-- Compilation process using Makefiles
+- Compilation process using the Makefile
 
 Without using `string.h`, this project implements basic functionalities as a learning path.
 
