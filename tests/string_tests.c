@@ -23,6 +23,7 @@ int test_str_length()
         {"60b28b9b-0c2b-4ac0-882b-66b89d26b9e9", 36},
         {"string with     mul  ti     ple whitespa  ce  s", 47},
         {"", 0},
+        {NULL, 0},
     };
 
     // Iterate and test all pairs
